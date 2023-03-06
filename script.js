@@ -1,4 +1,4 @@
-let openForm = document.querySelector('.profile__container_edit-button');
+let openForm = document.querySelector('.profile__container-edit');
 let info = document.querySelector('.popup');
 function Open() {
     info.style = 'opacity: 1; visibility: visible';
@@ -19,7 +19,7 @@ function handleFormSubmit (evt) {
     evt.preventDefault(); 
     // Получите значение полей jobInput и nameInput из свойства value
     let title = document.querySelector('.profile__container-title');
-    let subtitle = document.querySelector('.profile__container_subtitle');
+    let subtitle = document.querySelector('.profile__container-subtitle');
     title.textContent = nameInput.value;
     subtitle.textContent = jobInput.value;
 }   

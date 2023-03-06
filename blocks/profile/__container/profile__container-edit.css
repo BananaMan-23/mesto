@@ -1,4 +1,4 @@
-.profile__container_edit-button {
+.profile__container-edit {
     background-image: url(../../../../images/edit-button.svg);
     background-color: #000;
     background-position: center;
@@ -10,12 +10,12 @@
     margin-bottom: 24px;
     transition: opacity .3s ease-in;
 }
-.profile__container_edit-button:hover {
+.profile__container-edit:hover {
     cursor: pointer;
     opacity: .6;
 }
 @media screen and (max-width: 320px) {
-    .profile__container_edit-button {
+    .profile__container-edit {
         width: 18px;
         height: 18px;
     }
