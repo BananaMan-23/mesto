@@ -1,7 +1,7 @@
 .profile__container-add {
     width: 150px;
     padding: 20px 64px 20px 64px;
-    background-image: url(../../../images/add-button.svg);
+    background-image: url(../../../../images/add-button.svg);
     background-color: #000;
     background-repeat: no-repeat;
     border: 2px solid #FFFFFF;
