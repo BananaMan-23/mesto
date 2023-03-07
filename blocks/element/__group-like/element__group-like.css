@@ -7,6 +7,8 @@
     height: 19px;
     transition: opacity .3s ease-in;
     align-self: flex-start;
+    border: none;
+    background-color: white;
 }
 .element__group-like:hover {
     opacity: 0.6;

@@ -1,10 +1,18 @@
 .profile__container-info {
     display: flex;
     align-items: flex-end;
-    max-width: 572px;
+    max-width: 440px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 @media screen and (max-width: 768px) {
     .profile__container-info {
         justify-content: center;
+    }
+}
+@media screen and (max-width: 320px) {
+    .profile__container-info {
+        max-width: 300px;
     }
 }
