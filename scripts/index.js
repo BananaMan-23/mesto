@@ -6,29 +6,26 @@ let nameInput = document.querySelector('#name-input');
 let jobInput = document.querySelector('#info-input');
 let title = document.querySelector('.profile__container-title');
 let subtitle = document.querySelector('.profile__container-subtitle');
-let like = document.querySelector('.element__group-like');
-let likeActive = document.querySelector('.element__group-like_active');
-
-function likeClick() {
-    likeActive.style = 'background-image: url(./././images/like-active.svg)'
-}
-like.addEventListener('click', likeClick)
+nameInput.value = title.textContent;
+jobInput.value = subtitle.textContent;
 
 function openClick() {
-    info.style = 'opacity: 1; visibility: visible';
+    info.classList.add('popup__opened');
 }
 openForm.addEventListener('click', openClick);
 
+
 function closeClick() {
-    info.style = 'opacity: 0; visibility: hidden';
+    info.classList.remove('popup__opened');
 }
 popupClose.addEventListener('click', closeClick);
+
 
 function handleFormSubmit (evt) {
     evt.preventDefault(); 
     title.textContent = nameInput.value;
     subtitle.textContent = jobInput.value;
-    formElement.addEventListener('submit', closeClick);
+    closeClick
 }   
 formElement.addEventListener('submit', handleFormSubmit);
 
