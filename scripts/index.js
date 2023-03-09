@@ -23,8 +23,6 @@ popupClose.addEventListener('click', closeClick);
 
 function handleFormSubmit (evt) {
     evt.preventDefault(); 
-    title.textContent = nameInput.value;
-    subtitle.textContent = jobInput.value;
     closeClick
 }   
 formElement.addEventListener('submit', handleFormSubmit);
