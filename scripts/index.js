@@ -6,24 +6,28 @@ let nameInput = document.querySelector('#name-input');
 let jobInput = document.querySelector('#info-input');
 let title = document.querySelector('.profile__container-title');
 let subtitle = document.querySelector('.profile__container-subtitle');
-nameInput.value = title.textContent;
-jobInput.value = subtitle.textContent;
 
 function openClick() {
-    info.classList.add('popup__opened');
+    nameInput.value = title.textContent;
+    jobInput.value = subtitle.textContent;
+    info.classList.add('popup_opened');
 }
+    
+
 openForm.addEventListener('click', openClick);
 
 
 function closeClick() {
-    info.classList.remove('popup__opened');
+    info.classList.remove('popup_opened');
 }
 popupClose.addEventListener('click', closeClick);
 
 
 function handleFormSubmit (evt) {
     evt.preventDefault(); 
-    closeClick
+    title.textContent = nameInput.value; 
+    subtitle.textContent = jobInput.value;  
+    closeClick()
 }   
 formElement.addEventListener('submit', handleFormSubmit);
 

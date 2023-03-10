@@ -1,6 +1,6 @@
 .profile__container-add {
     width: 150px;
-    padding: 20px 64px 20px 64px;
+    padding: 20px 64px 27px 64px;
     background-image: url(../../../images/add-button.svg);
     background-color: #000;
     background-repeat: no-repeat;
@@ -8,6 +8,7 @@
     border-radius: 2px;
     background-position: center;
     transition: opacity .3s ease-in;
+    margin-top: 7px;
 }
 .profile__container-add:hover {
     cursor: pointer;
@@ -21,6 +22,6 @@
 @media screen and (max-width: 320px) {
     .profile__container-add {
         width: 282px;
-        padding: 22px;
+        padding: 23px;
     }
 }

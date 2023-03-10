@@ -13,6 +13,7 @@
 }
 @media screen and (max-width: 320px) {
     .profile__container-info {
-        max-width: 300px;
+        max-width: 275px;
+        margin-left: 26px;
     }
 }

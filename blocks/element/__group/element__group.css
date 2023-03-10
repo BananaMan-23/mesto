@@ -1,7 +1,7 @@
 .element__group {
     color: #000;
     display: flex;
-    max-width: 246px;
+    max-width: 241px;
     justify-content: space-between;
     align-items:center;
     margin: 0 auto;

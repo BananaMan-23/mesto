@@ -5,4 +5,6 @@
     white-space: nowrap;
     overflow: hidden;
     max-width: 190px;
+    line-height: 29px;
+    margin: 21px 0 25px; 
 }
