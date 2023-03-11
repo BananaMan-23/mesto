@@ -15,5 +15,6 @@
 @media screen and (max-width: 320px) {
     .profile__container-edit {
        padding: 8px;
+       background-image: url(../../../images/Vector-320px.svg);
     }
 }

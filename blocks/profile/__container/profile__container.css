@@ -4,11 +4,12 @@
     justify-content: center;
     margin-right: 215px;
     margin-top: 7px;
+    margin-left: 20px;
 }
 @media screen and (max-width: 1024px) {
     .profile__container {
         max-width: 380px;
-        margin-right: 20px;
+        margin-right: 16px;
     }
 }
 @media screen and (max-width: 768px) {
@@ -16,5 +17,6 @@
         align-items: center;
         margin-bottom: 27px;
         margin-right: 0;
+        margin-left: 0;
     }
 }

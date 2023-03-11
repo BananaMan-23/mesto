@@ -9,10 +9,10 @@
     border-radius: 10px;
     background-color: #fff;
 }
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 767px) {
     .popup__container {
-        max-width: 290px;
+        max-width: 280px;
         padding: 25px 22px 25px 22px;
-        bottom: 8%;
+        top: 14%;
     }
 }

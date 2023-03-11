@@ -23,5 +23,6 @@
     .profile__container-add {
         width: 282px;
         padding: 23px;
+        background-image: url(../../../images/Vector-plus-320px.svg);
     }
 }

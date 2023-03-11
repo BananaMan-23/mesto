@@ -1,7 +1,7 @@
 .profile__container-info {
     display: flex;
     align-items: flex-end;
-    max-width: 440px;
+    max-width: 400px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -9,6 +9,7 @@
 @media screen and (max-width: 768px) {
     .profile__container-info {
         justify-content: center;
+        max-width: 300px;
     }
 }
 @media screen and (max-width: 320px) {
