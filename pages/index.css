@@ -13,6 +13,7 @@
 @import url(../blocks/profile/__container-add/profile__container-add.css);
 @import url(../blocks/elements/elements.css);
 @import url(../blocks/element/element.css);
+@import url(../blocks/element/__trash/element__trash.css);
 @import url(../blocks/element/__image/element__image.css);
 @import url(../blocks/element/__group/element__group.css);
 @import url(../blocks/element/__group-like/element__group-like.css);
