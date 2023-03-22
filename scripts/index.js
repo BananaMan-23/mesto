@@ -6,6 +6,9 @@ const nameInput = document.querySelector('#name-input');
 const jobInput = document.querySelector('#info-input');
 const title = document.querySelector('.profile__container-title');
 const subtitle = document.querySelector('.profile__container-subtitle');
+const openFormCard = document.querySelector('.profile__container-add');
+const infoCard = document.querySelector('.popup_card-add');
+const popupCloseCard = document.querySelector('.popup__close-button');
 
 function openClick() {
     nameInput.value = title.textContent;
@@ -19,6 +22,18 @@ function closeClick() {
     info.classList.remove('popup_opened');
 }
 popupClose.addEventListener('click', closeClick);
+
+
+function openClickCard() {
+    infoCard.classList.add('popup_opened');
+}
+openFormCard.addEventListener('click', openClickCard);
+
+
+function closeClickCard() {
+    infoCard.classList.remove('popup_opened');
+}
+popupCloseCard.addEventListener('click', closeClickCard);
 
 
 function handleFormSubmit (evt) {
