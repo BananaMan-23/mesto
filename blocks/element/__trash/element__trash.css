@@ -7,4 +7,9 @@
     position: absolute;
     top: 5%;
     left: 85%;
+    transition: opacity .2s ease-in;
+}
+.element__trash:hover {
+    cursor: pointer;
+    opacity: .6;
 }

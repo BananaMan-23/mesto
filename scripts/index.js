@@ -9,6 +9,9 @@ const subtitle = document.querySelector('.profile__container-subtitle');
 const openFormCard = document.querySelector('.profile__container-add');
 const infoCard = document.querySelector('.popup_card-add');
 const popupCloseCard = document.querySelector('.popup__close-button');
+const buttonLikes = document.getElementsByClassName('element__group-like');
+const addingCard = document.querySelector('.profile__container-add');
+
 
 function openClick() {
     nameInput.value = title.textContent;
@@ -16,24 +19,30 @@ function openClick() {
     info.classList.add('popup_opened');
 }
 openForm.addEventListener('click', openClick);
-
-
 function closeClick() {
     info.classList.remove('popup_opened');
 }
 popupClose.addEventListener('click', closeClick);
 
 
+
 function openClickCard() {
     infoCard.classList.add('popup_opened');
 }
 openFormCard.addEventListener('click', openClickCard);
-
-
 function closeClickCard() {
     infoCard.classList.remove('popup_opened');
 }
 popupCloseCard.addEventListener('click', closeClickCard);
+
+
+
+for (const buttonLike of buttonLikes) {
+    buttonLike.addEventListener('click', function clickLike() {
+        buttonLike.classList.toggle('element__group-like_active');
+    })
+}
+
 
 
 function handleFormSubmit (evt) {
@@ -43,7 +52,6 @@ function handleFormSubmit (evt) {
     closeClick()
 }   
 formElement.addEventListener('submit', handleFormSubmit);
-
 function close(event) {
     if(event.target !== event.currentTarget) {
         return;
