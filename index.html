@@ -24,7 +24,7 @@
             <button class="profile__container-add" type="button"></button>
         </section>
         <section class="elements">
-            <div class="element">
+            <!--<div class="element">
                 <button class="element__trash" type="button"></button>
                 <img class="element__image" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="картинка">
                 <div class="element__group">
@@ -71,7 +71,7 @@
                     <h2 class="element__group-subtitle">Карачаево-Черкессия</h2>
                     <button class="element__group-like" type="button"></button>
                 </div>
-            </div>
+            </div>-->
         </section>
     </main>
     <footer class="footer">
@@ -94,11 +94,30 @@
             <form class="popup__form" name="popupForm">
                 <input name="name" type="text" class="popup__input popup__input_place_name" id="placeName-input" placeholder="Название" minlength="2" maxlength="30">
                 <input name="link" type="url" class="popup__input popup__input_place_url" id="placeUrl-input" placeholder="Ссылка на картинку">
-                <button type="submit" class="popup__submit-button">Создать</button>
+                <button type="submit" class="popup__submit-button popup__add-card">Создать</button>
             </form>
             <button type="button" class=" popup__close popup__close-button popup__close-button_card-add"></button>
         </div>
-      </section>
+    </section>
+    <section class="popup popup_zoom-image">
+        <div class="popup__sizing-container popup__overlay">
+            <div class="popup__figure">
+              <img src="#" class="popup__image" alt="#">
+              <figcaption class="popup__caption"></figcaption>
+            </div>
+            <button type="button" class="popup__close popup__close-button popup__close-button_zoom-image"></button>
+        </div>
+    </section>
+    <template class="template-cards">
+        <div class="element">
+            <button class="element__trash" type="button"></button>
+            <img class="element__image" src="" alt="картинка">
+            <div class="element__group">
+                <h2 class="element__group-subtitle"></h2>
+                <button class="element__group-like" type="button"></button>
+            </div>
+        </div>
+    </template>
     <script src="./scripts/index.js"></script>
 </body>
 </html>
