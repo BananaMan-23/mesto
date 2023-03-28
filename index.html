@@ -24,63 +24,15 @@
             <button class="profile__container-add" type="button"></button>
         </section>
         <section class="elements">
-            <!--<div class="element">
-                <button class="element__trash" type="button"></button>
-                <img class="element__image" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="картинка">
-                <div class="element__group">
-                    <h2 class="element__group-subtitle">Карачевск</h2>
-                    <button class="element__group-like" type="button"></button>
-                </div>
-            </div>
-            <div class="element">
-                <button class="element__trash" type="button"></button>
-                <img class="element__image" src="./images/elbrus.png" alt="картинка">
-                <div class="element__group">
-                    <h2 class="element__group-subtitle">Гора Эльбрус</h2>
-                    <button class="element__group-like" type="button"></button>
-                </div>
-            </div>
-            <div class="element">
-                <button class="element__trash" type="button"></button>
-                <img class="element__image" src="./images/dombai.png" alt="картинка">
-                <div class="element__group">
-                    <h2 class="element__group-subtitle">Домбай</h2>
-                    <button class="element__group-like" type="button"></button>
-                </div>
-            </div>
-            <div class="element">
-                <button class="element__trash" type="button"></button>
-                <img class="element__image" src="./images/elbrus.png" alt="картинка">
-                <div class="element__group">
-                    <h2 class="element__group-subtitle">Гора Эльбрус</h2>
-                    <button class="element__group-like" type="button"></button>
-                </div>
-            </div>
-            <div class="element">
-                <button class="element__trash" type="button"></button>
-                <img class="element__image" src="./images/dombai.png" alt="картинка">
-                <div class="element__group">
-                    <h2 class="element__group-subtitle">Домбай</h2>
-                    <button class="element__group-like" type="button"></button>
-                </div>
-            </div>
-            <div class="element">
-                <button class="element__trash" type="button"></button>
-                <img class="element__image" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="картинка">
-                <div class="element__group">
-                    <h2 class="element__group-subtitle">Карачаево-Черкессия</h2>
-                    <button class="element__group-like" type="button"></button>
-                </div>
-            </div>-->
         </section>
     </main>
     <footer class="footer">
         <p class="footer__copyright">© 2023. Mesto Russia</p>
     </footer>
-    <section class="popup">
+    <section class="popup popup_open-edit">
         <div class="popup__container">
             <h3 class="popup__title">Редактировать профиль</h3>
-            <form class="popup__form" name="form">
+            <form class="popup__form" name="popup_profile">
                 <input id="name-input" type="text" placeholder="Имя" class="popup__input" name="name" minlength="2" maxlength="80" value="">
                 <input id="info-input" type="text" placeholder="О себе" class="popup__input" name="info" minlength="2" maxlength="100" value="">
                 <button class="popup__submit-button" type="submit">Сохранить</button>
@@ -91,12 +43,12 @@
     <section class="popup popup_card-add">
         <div class="popup__container popup__overlay">
             <h2 class="popup__title">Новое место</h2>
-            <form class="popup__form" name="popupForm">
+            <form class="popup__form" name="popup_adding">
                 <input name="name" type="text" class="popup__input popup__input_place_name" id="placeName-input" placeholder="Название" minlength="2" maxlength="30">
                 <input name="link" type="url" class="popup__input popup__input_place_url" id="placeUrl-input" placeholder="Ссылка на картинку">
                 <button type="submit" class="popup__submit-button popup__add-card">Создать</button>
             </form>
-            <button type="button" class=" popup__close popup__close-button popup__close-button_card-add"></button>
+            <button type="button" class=" popup__close  popup__close-button_card-add"></button>
         </div>
     </section>
     <section class="popup popup_zoom-image">
@@ -105,7 +57,7 @@
               <img src="#" class="popup__image" alt="#">
               <figcaption class="popup__caption"></figcaption>
             </div>
-            <button type="button" class="popup__close popup__close-button popup__close-button_zoom-image"></button>
+            <button type="button" class="popup__close  popup__close-button_zoom-image"></button>
         </div>
     </section>
     <template class="template-cards">

@@ -25,128 +25,103 @@ const initialCards = [
     }
 ];
 const openForm = document.querySelector('.profile__container-edit');
-const info = document.querySelector('.popup');
-const popupClose = document.querySelector('.popup__close');
-const formElement = document.querySelector('.popup__form');
+const popupOpenEdit = document.querySelector('.popup_open-edit');
+const popupClosed = document.querySelector('.popup__close');
 const nameInput = document.querySelector('#name-input');
 const jobInput = document.querySelector('#info-input');
 const title = document.querySelector('.profile__container-title');
 const subtitle = document.querySelector('.profile__container-subtitle');
 const openFormCard = document.querySelector('.profile__container-add');
-const infoCard = document.querySelector('.popup_card-add');
-const popupCloseCard = document.querySelector('.popup__close-button');
+const popupOpenCard = document.querySelector('.popup_card-add');
+const popupCloseCard = document.querySelector('.popup__close-button_card-add');
 
 const deleteCards = document.querySelector('.element__trash');
 const elementsCard = document.querySelector('.elements');
-const buttonLikes = document.getElementsByClassName('element__group-like');
+
 const addingCard = document.querySelector('.popup__add-card');
 const placeNameCard = document.querySelector('.popup__input_place_name');
 const placeUrlCard = document.querySelector('.popup__input_place_url');
 const template = document.querySelector('.template-cards').content;
 const closeZoomImage = document.querySelector('.popup__close-button_zoom-image');
 const popupZoomImage = document.querySelector('.popup_zoom-image');
+const popupImage = document.querySelector('.popup__image');
+const popupCaption = document.querySelector('.popup__caption');
+const popupAdding =  document.querySelector("form[name='popup_adding']");
+const popupProfile = document.querySelector("form[name='popup_profile']")
 
-function closeCardsForm () {
-  infoCard.remove('.popup_opened');
+function popupOpen (popup) {
+  popup.classList.add('popup_opened');
 }
-addingCard.addEventListener('click', closeCardsForm);
 
+function popupClose (popup) {
+  popup.classList.remove('popup_opened');
+}
 
 initialCards.forEach(renderCards)
+
 function renderCards (item) {
   const htmlElement = template.cloneNode(true);
+  const buttonLike = htmlElement.querySelector('.element__group-like');
   htmlElement.querySelector('.element__trash').addEventListener('click', deleteCard);
   htmlElement.querySelector('.element__image').src = item.link;
   htmlElement.querySelector('.element__image').alt = item.name;
   htmlElement.querySelector('.element__group-subtitle').textContent = item.name;
-  htmlElement.querySelector('.element__group-like').addEventListener('click', likeActive);
+  buttonLike.addEventListener('click', () => {
+    buttonLike.classList.toggle('element__group-like_active');
+  });
   htmlElement.querySelector('.element__image').addEventListener('click', () => openImage(item))
   elementsCard.prepend(htmlElement);
-  return createCard;
 }
 
 function openImage (item) {
-  popupZoomImage.querySelector('.popup__image').src = item.link;
-  popupZoomImage.querySelector('.popup__caption').textContent = item.name;
-  popupZoomImage.classList.add('popup_opened');
+  popupImage.src = item.link;
+  popupCaption.textContent = item.name;
+  popupOpen(popupZoomImage);
 }
-function handleCloseZoom () {
-  popupZoomImage.classList.remove('popup_opened');
-}
-closeZoomImage.addEventListener('click', handleCloseZoom);
 
-function renderCard (item) {
-  const cardElement = createCard(item);
-  elementsCard.append(cardElement);
-}
-function createCard (item) {
-  elementsCard = renderCards(item);
-  return elementsCard;
-}
 function handleAdding (evt) {
   evt.preventDefault();
   const item = {name: placeNameCard.value, link: placeUrlCard.value};
-  renderCard(item);
-  closeCardsForm();
-  evt.target.reset();
+  renderCards(item);
 
 }
-addingCard.addEventListener('click', handleAdding);
-
 
 function deleteCard (event) {
   const card = event.target.closest('.element');
   card.remove()
 }
 
-function likeActive () {
-  for (const buttonLike of buttonLikes) {
-    buttonLike.addEventListener('click', function clickLike() {
-        buttonLike.classList.toggle('element__group-like_active');
-    })
-}
-
-}
-
-
-
 function openClick() {
     nameInput.value = title.textContent;
     jobInput.value = subtitle.textContent;
-    info.classList.add('popup_opened');
+    popupOpen(popupOpenEdit);
 }
-openForm.addEventListener('click', openClick);
-function closeClick() {
-    info.classList.remove('popup_opened');
-}
-popupClose.addEventListener('click', closeClick);
-
-
-
-function openClickCard() {
-    infoCard.classList.add('popup_opened');
-}
-openFormCard.addEventListener('click', openClickCard);
-function closeClickCard() {
-    infoCard.classList.remove('popup_opened');
-}
-popupCloseCard.addEventListener('click', closeClickCard);
-
-
 
 function handleFormSubmit (evt) {
     evt.preventDefault(); 
     title.textContent = nameInput.value; 
-    subtitle.textContent = jobInput.value;  
-    closeClick()
-}   
-formElement.addEventListener('submit', handleFormSubmit);
+    subtitle.textContent = jobInput.value;
+    popupClose(popupOpenEdit);  
+    
+}  
+
 function close(event) {
     if(event.target !== event.currentTarget) {
         return;
     }
-    closeClick()
+    popupClose(popupOpenEdit);
 }
-info.addEventListener('click', close);
+
+popupOpenEdit.addEventListener('click', close);
+popupProfile.addEventListener('submit', handleFormSubmit);
+openForm.addEventListener('click', openClick);
+popupAdding.addEventListener('submit', handleAdding);
+addingCard.addEventListener('click', () => popupClose(popupOpenCard));
+popupClosed.addEventListener('click', () => popupClose(popupOpenEdit));
+popupCloseCard.addEventListener('click', () => popupClose(popupOpenCard));
+closeZoomImage.addEventListener('click', () => popupClose(popupZoomImage));
+openForm.addEventListener('click', () => popupOpen(popupOpenEdit));
+openFormCard.addEventListener('click', () => popupOpen(popupOpenCard));
+
 
 
