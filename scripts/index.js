@@ -33,7 +33,8 @@ const title = document.querySelector('.profile__container-title');
 const subtitle = document.querySelector('.profile__container-subtitle');
 const openFormCard = document.querySelector('.profile__container-add');
 const popupOpenCard = document.querySelector('.popup_card-add');
-const popupCloseCard = document.querySelector('.popup__close-button_card-add');
+
+const popupCloseCard = document.querySelector('.popup__close_button_card-add');
 
 const deleteCards = document.querySelector('.element__trash');
 const elementsCard = document.querySelector('.elements');
