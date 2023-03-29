@@ -62,6 +62,14 @@ function closePopup (popup) {
 initialCards.forEach(renderCards)
 
 function renderCards (item) {
+  const newCard = createCards(item);
+  elementsCard.append(newCard);
+
+}
+
+
+
+function createCards(item) {
   const htmlElement = template.cloneNode(true);
   const buttonLike = htmlElement.querySelector('.element__group-like');
   htmlElement.querySelector('.element__trash').addEventListener('click', deleteCard);
@@ -71,14 +79,16 @@ function renderCards (item) {
   buttonLike.addEventListener('click', () => {
     buttonLike.classList.toggle('element__group-like_active');
   });
-  htmlElement.querySelector('.element__image').addEventListener('click', () => openImage(item))
-  elementsCard.prepend(htmlElement);
-
+  htmlElement.querySelector('.element__image').addEventListener('click', () => openImage(item));
+  return htmlElement;
 }
 
-function createCard () {
-  const item = {name: placeNameCard.value, link: placeUrlCard.value};
-  renderCards(item);
+
+function addCard (event) {
+  event.preventDefault();
+  const newCard = createCards({name: placeNameCard.value, link: placeUrlCard.value});
+  elementsCard.prepend(newCard);
+  event.target.reset()
 }
 
 function openImage (item) {
@@ -88,11 +98,6 @@ function openImage (item) {
   openPopup(popupZoomImage);
 }
 
-function handleAdding (evt) {
-  evt.preventDefault();
-  evt.target.reset()
-
-}
 
 function deleteCard (event) {
   const card = event.target.closest('.element');
@@ -123,8 +128,7 @@ function close(event) {
 popupOpenEdit.addEventListener('click', close);
 popupProfile.addEventListener('submit', handleFormSubmit);
 openForm.addEventListener('click', openClick);
-popupAdding.addEventListener('submit', handleAdding);
-popupAdding.addEventListener('submit', createCard);
+popupAdding.addEventListener('submit',addCard);
 addingCard.addEventListener('click', () => closePopup(popupOpenCard));
 popupClosed.addEventListener('click', () => closePopup(popupOpenEdit));
 popupCloseCard.addEventListener('click', () => closePopup(popupOpenCard));
