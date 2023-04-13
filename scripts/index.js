@@ -24,32 +24,53 @@ const initialCards = [
       link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
     }
 ];
-const openForm = document.querySelector('.profile__container-edit');
+// все попапы
+const popups = document.querySelectorAll('.popup');
+// кнопка открытия редактирования профиля
+const buttonOpenProfile = document.querySelector('.profile__container-edit');
+
 const popupOpenEdit = document.querySelector('.popup_open-edit');
+
 const popupClosed = document.querySelector('.popup__close');
+// ввод имени
 const nameInput = document.querySelector('#name-input');
+// ввод статуса профиля
 const jobInput = document.querySelector('#info-input');
+// имя профиля
 const title = document.querySelector('.profile__container-title');
+// статус профиля
 const subtitle = document.querySelector('.profile__container-subtitle');
-const openFormCard = document.querySelector('.profile__container-add');
+// кнопка открытия попапа добавления карточек
+const buttonOpenEdit = document.querySelector('.profile__container-add');
+
 const popupOpenCard = document.querySelector('.popup_card-add');
 
 const popupCloseCard = document.querySelector('.popup__close_button_card-add');
-
+// кнопка удаления карточки
 const deleteCards = document.querySelector('.element__trash');
 
 const elementsCard = document.querySelector('.elements');
-
+// кнопка добавление карточки на сайт
 const addingCard = document.querySelector('.popup__add-card');
+// название карточки
 const placeNameCard = document.querySelector('.popup__input_place_name');
+// ссылка на карточку
 const placeUrlCard = document.querySelector('.popup__input_place_url');
+// template шаблон
 const template = document.querySelector('.template-cards').content;
+
 const closeZoomImage = document.querySelector('.popup__close_button_zoom-image');
+
 const popupZoomImage = document.querySelector('.popup_zoom-image');
+// картинка в большем размере
 const popupImage = document.querySelector('.popup__image');
+// подпись к фотографиям
 const popupCaption = document.querySelector('.popup__caption');
+
+
 const popupAdding =  document.querySelector("form[name='popup_adding']");
 const popupProfile = document.querySelector("form[name='popup_profile']")
+
 
 function openPopup (popup) {
   popup.classList.add('popup_opened');
@@ -59,6 +80,7 @@ function closePopup (popup) {
   popup.classList.remove('popup_opened');
 }
 
+
 initialCards.forEach(renderCards)
 
 function renderCards (item) {
@@ -66,7 +88,6 @@ function renderCards (item) {
   elementsCard.append(newCard);
 
 }
-
 
 
 function createCards(item) {
@@ -105,8 +126,8 @@ function deleteCard (event) {
 }
 
 function openClick() {
-    nameInput.value = title.textContent;
-    jobInput.value = subtitle.textContent;
+    // nameInput.value = title.textContent;
+    // jobInput.value = subtitle.textContent;
     openPopup(popupOpenEdit);
 }
 
@@ -123,17 +144,30 @@ function close(event) {
         return;
     }
     closePopup(popupOpenEdit);
+    closePopup(popupOpenCard);
+    closePopup(popupZoomImage);
 }
 
+// функция закрытия попапа
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') {
+    closePopup(popupOpenEdit);
+    closePopup(popupOpenCard);
+    closePopup(popupZoomImage);
+  }
+})
+
+
+
+popupZoomImage.addEventListener('click', close);
+popupOpenCard.addEventListener('click', close);
 popupOpenEdit.addEventListener('click', close);
 popupProfile.addEventListener('submit', handleFormSubmit);
-openForm.addEventListener('click', openClick);
+buttonOpenProfile.addEventListener('click', openClick);
 popupAdding.addEventListener('submit',addCard);
 addingCard.addEventListener('click', () => closePopup(popupOpenCard));
 popupClosed.addEventListener('click', () => closePopup(popupOpenEdit));
 popupCloseCard.addEventListener('click', () => closePopup(popupOpenCard));
 closeZoomImage.addEventListener('click', () => closePopup(popupZoomImage));
-openFormCard.addEventListener('click', () => openPopup(popupOpenCard));
-
-
+buttonOpenEdit.addEventListener('click', () => openPopup(popupOpenCard));
 
