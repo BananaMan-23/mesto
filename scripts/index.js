@@ -109,7 +109,7 @@ function addCard (event) {
   event.preventDefault();
   const newCard = createCards({name: placeNameCard.value, link: placeUrlCard.value});
   elementsCard.prepend(newCard);
-  event.target.reset()
+  event.target.reset();
 }
 
 function openImage (item) {
@@ -135,8 +135,7 @@ function handleFormSubmit (evt) {
     evt.preventDefault(); 
     title.textContent = nameInput.value; 
     subtitle.textContent = jobInput.value;
-   closePopup(popupOpenEdit);  
-    
+    closePopup(popupOpenEdit);  
 }  
 
 function close(event) {
@@ -149,14 +148,13 @@ function close(event) {
 }
 
 // функция закрытия попапа
-document.addEventListener('keydown', function (e) {
-  if (e.key === 'Escape') {
+document.addEventListener('keydown', function (event) {
+  if (event.key === 'Escape') {
     closePopup(popupOpenEdit);
     closePopup(popupOpenCard);
     closePopup(popupZoomImage);
   }
 })
-
 
 
 popupZoomImage.addEventListener('click', close);
@@ -165,7 +163,15 @@ popupOpenEdit.addEventListener('click', close);
 popupProfile.addEventListener('submit', handleFormSubmit);
 buttonOpenProfile.addEventListener('click', openClick);
 popupAdding.addEventListener('submit',addCard);
-addingCard.addEventListener('click', () => closePopup(popupOpenCard));
+
+
+addingCard.addEventListener('click', () => {
+  closePopup(popupOpenCard)
+  addingCard.classList.add('popup__button_disabled')
+  addingCard.setAttribute(true, 'disabled')
+});
+
+
 popupClosed.addEventListener('click', () => closePopup(popupOpenEdit));
 popupCloseCard.addEventListener('click', () => closePopup(popupOpenCard));
 closeZoomImage.addEventListener('click', () => closePopup(popupZoomImage));
