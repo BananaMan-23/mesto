@@ -169,6 +169,8 @@ addingCard.addEventListener('click', () => {
   closePopup(popupOpenCard)
   addingCard.classList.add('popup__button_disabled')
   addingCard.setAttribute(true, 'disabled')
+  placeNameCard.classList.add('popup__input_type_error')
+  placeUrlCard.classList.add('popup__input_type_error')
 });
 
 
