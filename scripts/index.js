@@ -120,6 +120,7 @@ function addCard (event) {
   const newCard = createCards({name: placeNameCard.value, link: placeUrlCard.value});
   elementsCard.prepend(newCard);
   event.target.reset();
+  closePopup(popupOpenCard)
   addingCardButton.classList.add('popup__button_disabled')
   addingCardButton.disabled = true
 }
@@ -152,7 +153,7 @@ function handleProfileFormSubmit (evt) {
 
 function handleOverlay(event) {
     if(event.target === event.currentTarget) {
-      closePopup(!event.currentTarget);
+      closePopup(event.currentTarget);
     }
 }
 
@@ -164,9 +165,6 @@ popupOpenEdit.addEventListener('click', handleOverlay);
 popupProfile.addEventListener('submit', handleProfileFormSubmit);
 buttonOpenProfile.addEventListener('click', openProfilePopup);
 popupAdding.addEventListener('submit',addCard);
-
-
-addingCardButton.addEventListener('click', () => closePopup(popupOpenCard));
 
 
 profileCloseButton.addEventListener('click', () => closePopup(popupOpenEdit));
