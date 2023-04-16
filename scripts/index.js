@@ -95,7 +95,6 @@ initialCards.forEach(renderCards)
 function renderCards (item) {
   const newCard = createCards(item);
   elementsCard.append(newCard);
-
 }
 
 
@@ -120,9 +119,9 @@ function addCard (event) {
   const newCard = createCards({name: placeNameCard.value, link: placeUrlCard.value});
   elementsCard.prepend(newCard);
   event.target.reset();
-  closePopup(popupOpenCard)
-  addingCardButton.classList.add('popup__button_disabled')
-  addingCardButton.disabled = true
+  addingCardButton.classList.add('popup__button_disabled');
+  addingCardButton.disabled = false;
+  closePopup(popupOpenCard);
 }
 
 function openImage (item) {
