@@ -52,12 +52,12 @@ function hasInvalidInput (form) {
 
 function enableButton (button, {inactiveButtonClass}) {
     button.classList.remove(inactiveButtonClass)
-    button.setAttribute(true, "disabled")
+    button.disabled = false;
 }
 
 function disableButton (button, {inactiveButtonClass}) {
     button.classList.add(inactiveButtonClass)
-    button.removeAttribute(false, "disabled")
+    button.disabled - true;
 };
 
 Validation (enableValidation);
