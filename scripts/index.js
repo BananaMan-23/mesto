@@ -120,7 +120,7 @@ function addCard (event) {
   elementsCard.prepend(newCard);
   event.target.reset();
   addingCardButton.classList.add('popup__button_disabled');
-  addingCardButton.disabled = false;
+  addingCardButton.disabled = true;
   closePopup(popupOpenCard);
 }
 
