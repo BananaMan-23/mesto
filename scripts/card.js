@@ -15,8 +15,8 @@ export class Card {
     renderCards(container) {
       this._getTemplate()
       this._setEventListeners()
-      this._cards.querySelector('.element__image').src = this._link
-      this._cards.querySelector('.element__image').alt = this._name
+      this._cards.querySelector('.element__image')
+      .src = this._link
       this._cards.querySelector('.element__group-subtitle').textContent = this._name    
       container.prepend(this._cards)
     }
@@ -46,17 +46,15 @@ export class Card {
       toggle('element__group-like_active')
     }
     _handleRemoveCard() {
-      this._cards
-      .closest('.element')
-      .remove()
+      this._cards.remove();
     }
     _handleOpenPopupImage() {
-      const popupCaption = document.querySelector('.popup__caption');
-      const popupImage = document.querySelector('.popup__image');
-      const popupZoomImage = document.querySelector('.popup_zoom-image');
       popupImage.src = this._link;
       popupImage.alt = this._name;
       popupCaption.textContent = this._name;
       openPopup(popupZoomImage);
     }
 }
+const popupCaption = document.querySelector('.popup__caption');
+const popupImage = document.querySelector('.popup__image');
+const popupZoomImage = document.querySelector('.popup_zoom-image');

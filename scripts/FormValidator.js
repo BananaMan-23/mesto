@@ -1,21 +1,15 @@
-const enableValidations = ({
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__button',
-    inactiveButtonClass: 'popup__button_disabled',
-    inputErrorClass: 'popup__input_type_error',
-    errorClass: 'popup__input-error_active'
-}); 
+import { closePopup } from "./index.js"
+
 export class FormValidator {
-    constructor(data, formSelector) {
+    constructor(data, formElement) {
       this._inputSelector = data.inputSelector
       this._submitButtonSelector = data.submitButtonSelector
       this._inactiveButtonClass = data.inactiveButtonClass
       this._inputErrorClass = data.inputErrorClass
       this._errorClass = data.errorClass
-      this._formElement = formSelector
+      this._formElement = formElement
     }
-  
+
     _activeError(inputElement, errorMessage) {
       const errorElement = this._formElement.querySelector(`#${inputElement.id}-error`)
       inputElement.classList.add(this._inputErrorClass)
@@ -54,13 +48,13 @@ export class FormValidator {
     }
   
     _setIventListeners() {
-      const input = Array.from(this._formElement.querySelectorAll(this._inputSelector))
-      const buttonElement = this._formElement.querySelector(this._submitButtonSelector)
-      this._clickButton(input, buttonElement)
-      input.forEach((inputElement) => {
+      this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector))
+      this._buttonElement = this._formElement.querySelector(this._submitButtonSelector)
+      this._clickButton(this._inputList, this._buttonElement)
+      this._inputList.forEach((inputElement) => {
         inputElement.addEventListener('input', () => {
           this._checkInputValidity(inputElement)
-          this._clickButton(input, buttonElement)
+          this._clickButton(this._inputList, this._buttonElement)
         })
       })
     }
@@ -69,8 +63,10 @@ export class FormValidator {
       this._setIventListeners();
     }
 }
-const form = Array.from(document.querySelectorAll('.popup__form'))
-form.forEach((item) => {
-  const valid = new FormValidator(enableValidations, item)
-  valid.enableValidation()
-})
+export function resetValidation() {
+  addingCardButton.classList.add('popup__button_disabled');
+  addingCardButton.disabled = true;
+  closePopup(popupOpenCard);
+}
+const addingCardButton = document.querySelector('.popup__add-card');
+const popupOpenCard = document.querySelector('.popup_card-add');
