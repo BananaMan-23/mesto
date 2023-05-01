@@ -52,7 +52,6 @@ const placeUrlCard = document.querySelector('.popup__input_place_url');
 const popupAdding =  document.querySelector("form[name='popup_adding']");
 const popupProfile = document.querySelector("form[name='popup_profile']")
 
-
 function closeByEscape(evt) {
   if (evt.key === 'Escape') {
     const openedPopup = document.querySelector('.popup_opened');
@@ -99,11 +98,9 @@ popups.forEach((popup) => {
     })
 })
 
-
 function createCard (item) {
   const newCard = new Card(item, '.template-cards')
   return newCard.renderCards(elementsCard)
-  
 }
 
 function addCard(event) {
@@ -121,6 +118,9 @@ function addCard(event) {
 
 initialCards.forEach((item) => {
   createCard(item)
+  const newCards = new Card(item, '.template-cards')
+  const cardElement = newCards.renderCards()
+  document.querySelector('.elements').prepend(cardElement)
 })
 popupAdding.addEventListener('submit',addCard);
 

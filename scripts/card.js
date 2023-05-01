@@ -12,13 +12,14 @@ export class Card {
       .querySelector('.element')
       .cloneNode(true)
     }
-    renderCards(container) {
+    renderCards() {
       this._getTemplate()
       this._setEventListeners()
       this._img.alt = this._name
       this._img.src = this._link
       this._cards.querySelector('.element__group-subtitle').textContent = this._name    
-      container.prepend(this._cards)
+      // container.prepend(this._cards)
+      return this._cards
     }
     _setEventListeners() {
       this._img = this._cards.querySelector('.element__image')
