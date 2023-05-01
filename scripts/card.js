@@ -15,12 +15,13 @@ export class Card {
     renderCards(container) {
       this._getTemplate()
       this._setEventListeners()
-      this._cards.querySelector('.element__image')
-      .src = this._link
+      this._img.alt = this._name
+      this._img.src = this._link
       this._cards.querySelector('.element__group-subtitle').textContent = this._name    
       container.prepend(this._cards)
     }
     _setEventListeners() {
+      this._img = this._cards.querySelector('.element__image')
       this._cards
       .querySelector('.element__group-like')
       .addEventListener('click', () => {
@@ -33,8 +34,7 @@ export class Card {
           this._handleRemoveCard()
         })
   
-      this._cards
-      .querySelector('.element__image')
+      this._img
       .addEventListener('click', () => {
           this._handleOpenPopupImage()
         })

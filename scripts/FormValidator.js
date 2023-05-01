@@ -1,5 +1,3 @@
-import { closePopup } from "./index.js"
-
 export class FormValidator {
     constructor(data, formElement) {
       this._inputSelector = data.inputSelector
@@ -8,6 +6,12 @@ export class FormValidator {
       this._inputErrorClass = data.inputErrorClass
       this._errorClass = data.errorClass
       this._formElement = formElement
+    }
+
+    disableSubmitButton() {
+      this._buttonElement = this._formElement.querySelector(this._submitButtonSelector)
+      this._buttonElement.classList.add(this._inactiveButtonClass);
+      this._buttonElement.disbaled = true;
     }
 
     _activeError(inputElement, errorMessage) {
@@ -63,10 +67,3 @@ export class FormValidator {
       this._setIventListeners();
     }
 }
-export function resetValidation() {
-  addingCardButton.classList.add('popup__button_disabled');
-  addingCardButton.disabled = true;
-  closePopup(popupOpenCard);
-}
-const addingCardButton = document.querySelector('.popup__add-card');
-const popupOpenCard = document.querySelector('.popup_card-add');

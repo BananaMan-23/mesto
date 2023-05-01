@@ -1,4 +1,4 @@
-import { FormValidator, resetValidation } from "./FormValidator.js";
+import { FormValidator } from "./FormValidator.js";
 import { Card } from "./Card.js";
 
 const initialCards = [
@@ -100,10 +100,6 @@ popups.forEach((popup) => {
 })
 
 
-const handleAddCard = (item) => {
-  createCard(item)
-}
-
 function createCard (item) {
   const newCard = new Card(item, '.template-cards')
   return newCard.renderCards(elementsCard)
@@ -116,21 +112,19 @@ function addCard(event) {
       name: placeNameCard.value,
       link: placeUrlCard.value
   });
-  const newCards = handleAddCard(newValues)
+  const newCards = createCard(newValues)
   event.target.reset();
-  resetValidation()
-  // addingCardButton.classList.add('popup__button_disabled');
-  // addingCardButton.disabled = true;
+  cardAddFormValidator.disableSubmitButton()
   closePopup(popupOpenCard);
   return newCards
 }
 
 initialCards.forEach((item) => {
-  handleAddCard(item)
+  createCard(item)
 })
 popupAdding.addEventListener('submit',addCard);
 
-const enableValidations = ({
+const validation = ({
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__button',
@@ -139,12 +133,9 @@ const enableValidations = ({
   errorClass: 'popup__input-error_active'
 }); 
 
-const form = Array.from(document.querySelectorAll('.popup__form'))
-form.forEach((item) => {
-  validity(item)
-})
 
-function validity (item) {
-  const valid = new FormValidator(enableValidations, item)
-  return valid.enableValidation()
-}
+const profileEditFormValidator = new FormValidator(validation, popupProfile)
+profileEditFormValidator.enableValidation()
+
+const cardAddFormValidator = new FormValidator(validation, popupAdding)
+cardAddFormValidator.enableValidation()
