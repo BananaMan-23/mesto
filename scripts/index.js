@@ -42,10 +42,6 @@ const subtitle = document.querySelector('.profile__container-subtitle');
 const buttonOpenEdit = document.querySelector('.profile__container-add');
 
 const popupOpenCard = document.querySelector('.popup_card-add');
-const elementsCard = document.querySelector('.elements');
-// кнопка добавление карточки на сайт
-const addingCardButton = document.querySelector('.popup__add-card');
-// название карточки
 const placeNameCard = document.querySelector('.popup__input_place_name');
 // ссылка на карточку
 const placeUrlCard = document.querySelector('.popup__input_place_url');
