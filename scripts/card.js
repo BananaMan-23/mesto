@@ -23,11 +23,11 @@ export class Card {
     }
     _setEventListeners() {
       this._img = this._cards.querySelector('.element__image')
-      this._cards
-      .querySelector('.element__group-like')
-      .addEventListener('click', () => {
+      this._like = this._cards.querySelector('.element__group-like')
+      this._like.addEventListener('click', () => {
         this._handleLikeCard()
         })
+      
   
       this._cards
       .querySelector('.element__trash')
@@ -41,8 +41,7 @@ export class Card {
         })
     }
     _handleLikeCard() {
-      this._cards
-      .querySelector('.element__group-like')
+      this._like
       .classList.
       toggle('element__group-like_active')
     }
