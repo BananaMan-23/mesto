@@ -1,4 +1,3 @@
-// import { openPopup } from "./index.js"
 export class Card {
     constructor(data, cardSelector) {
       this._name = data.name

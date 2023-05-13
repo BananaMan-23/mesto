@@ -1,6 +1,10 @@
 import { FormValidator } from "./FormValidator.js";
 import { Card } from "./Card.js";
-import { Popup } from "./Popup.js"
+import  Popup from "./Popup.js"
+import PopupWithImage from "./PopupWithImage.js";
+import Section from './Section.js'
+import PopupWithForm from './PopupWithForm.js'
+
 
 
 const initialCards = [
@@ -51,12 +55,43 @@ const popupAdding =  document.querySelector("form[name='popup_adding']");
 const popupProfile = document.querySelector("form[name='popup_profile']")
 const elements = document.querySelector('.elements')
 
+// Функция отрисовки карточек
+const cardList = new Section( {
+  items: initialCards,
+  renderer: (item) => {
+    const card = new Card(item, '.template-cards')
+    const cardElement = card.renderCards()
 
+    cardList.addItem(cardElement)
+  } }, '.elements')
+
+cardList.render()
+
+// функция добавления карточки
+const popupFormCardAdd = new PopupWithForm('.popup_card-add', _ => {
+  const newValues = 
+  {
+    name: placeNameCard.value,
+    link: placeUrlCard.value
+  }
+
+  const card = new Card(newValues, '.template-cards')
+  const cardElement = card.renderCards()
+  cardList.addItem(cardElement)
+  cardAddFormValidator.disableSubmitButton()
+  popupOpenEd.close()
+})
+
+popupFormCardAdd.setEventListeners()
+popupAdding.addEventListener('click', _ => {
+  popupFormCardAdd.open()
+})
+
+// функция открытия попапа профиля
 const popupOpenProfile = new Popup('.popup_open-edit')
 popupOpenProfile.setEventListeners()
 buttonOpenProfile.addEventListener('click', _ => {
   popupOpenProfile.open()
-  openProfilePopup()
 })
 function openProfilePopup() {
   nameInput.value = title.textContent;
@@ -70,12 +105,14 @@ function handleProfileFormSubmit (evt) {
   popupOpenProfile.close()
 }  
 popupProfile.addEventListener('submit', handleProfileFormSubmit);
-
+// функция открытия второго попапа
 const popupOpenEd = new Popup('.popup_card-add')
 popupOpenEd.setEventListeners()
 buttonOpenEdit.addEventListener('click', _ => {
   popupOpenEd.open()
 })
+
+
 // function closeByEscape(evt) {
 //   if (evt.key === 'Escape') {
 //     const openedPopup = document.querySelector('.popup_opened');
@@ -93,7 +130,7 @@ buttonOpenEdit.addEventListener('click', _ => {
 // }
 
 
-// buttonOpenProfile.addEventListener('click', openProfilePopup);
+buttonOpenProfile.addEventListener('click', openProfilePopup);
 // buttonOpenEdit.addEventListener('click', () => openPopup(popupOpenCard));
 
 const popups = document.querySelectorAll('.popup')
@@ -110,29 +147,29 @@ popups.forEach((popup) => {
     })
 })
 
-function createCard (item) {
-  const newCard = new Card(item, '.template-cards')
-  return newCard.renderCards()
-}
+// function createCard (item) {
+//   const newCard = new Card(item, '.template-cards')
+//   return newCard.renderCards()
+// }
 
-function addCard(event) {
-  event.preventDefault()
-  const newValues = ({
-      name: placeNameCard.value,
-      link: placeUrlCard.value
-  });
-  const newCards = createCard(newValues)
-  event.target.reset();
-  cardAddFormValidator.disableSubmitButton()
-  popupOpenEd.close()
-  elements.prepend(newCards)
-}
+// function addCard(event) {
+//   event.preventDefault()
+//   const newValues = ({
+//       name: placeNameCard.value,
+//       link: placeUrlCard.value
+//   });
+//   const newCards = cardList.addItem(newValues)
+//   event.target.reset();
+//   cardAddFormValidator.disableSubmitButton()
+//   popupOpenEd.close()
+//   elements.prepend(newCards)
+// }
 
-initialCards.forEach((item) => {
-  const cardElement = createCard(item)
-  elements.prepend(cardElement)
-})
-popupAdding.addEventListener('submit',addCard);
+// initialCards.forEach((item) => {
+//   const cardElement = createCard(item)
+//   elements.prepend(cardElement)
+// })
+// popupAdding.addEventListener('submit',addCard);
 
 const validation = ({
   formSelector: '.popup__form',
