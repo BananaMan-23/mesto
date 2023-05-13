@@ -1,5 +1,7 @@
 import { FormValidator } from "./FormValidator.js";
 import { Card } from "./Card.js";
+import { Popup } from "./Popup.js"
+
 
 const initialCards = [
     {
@@ -29,7 +31,7 @@ const initialCards = [
 ];
 // кнопка открытия редактирования профиля
 const buttonOpenProfile = document.querySelector('.profile__container-edit');
-const popupOpenEdit = document.querySelector('.popup_open-edit');
+// const popupOpenEdit = document.querySelector('.popup_open-edit');
 // ввод имени
 const nameInput = document.querySelector('#name-input');
 // ввод статуса профиля
@@ -41,7 +43,7 @@ const subtitle = document.querySelector('.profile__container-subtitle');
 // кнопка открытия попапа добавления карточек
 const buttonOpenEdit = document.querySelector('.profile__container-add');
 
-const popupOpenCard = document.querySelector('.popup_card-add');
+// const popupOpenCard = document.querySelector('.popup_card-add');
 const placeNameCard = document.querySelector('.popup__input_place_name');
 // ссылка на карточку
 const placeUrlCard = document.querySelector('.popup__input_place_url');
@@ -49,48 +51,61 @@ const popupAdding =  document.querySelector("form[name='popup_adding']");
 const popupProfile = document.querySelector("form[name='popup_profile']")
 const elements = document.querySelector('.elements')
 
-function closeByEscape(evt) {
-  if (evt.key === 'Escape') {
-    const openedPopup = document.querySelector('.popup_opened');
-    closePopup(openedPopup)
-  }
-}
-export function openPopup (popup) {
-  popup.classList.add('popup_opened');
-  document.addEventListener('keydown', closeByEscape); 
-}
 
-export function closePopup (popup) {
-  popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closeByEscape); 
-}
-
+const popupOpenProfile = new Popup('.popup_open-edit')
+popupOpenProfile.setEventListeners()
+buttonOpenProfile.addEventListener('click', _ => {
+  popupOpenProfile.open()
+  openProfilePopup()
+})
 function openProfilePopup() {
-    nameInput.value = title.textContent;
-    jobInput.value = subtitle.textContent;
-    openPopup(popupOpenEdit);
+  nameInput.value = title.textContent;
+  jobInput.value = subtitle.textContent;
 }
 
 function handleProfileFormSubmit (evt) {
-    evt.preventDefault(); 
-    title.textContent = nameInput.value; 
-    subtitle.textContent = jobInput.value;
-    closePopup(popupOpenEdit);
+  evt.preventDefault(); 
+  title.textContent = nameInput.value; 
+  subtitle.textContent = jobInput.value;
+  popupOpenProfile.close()
 }  
-
-
 popupProfile.addEventListener('submit', handleProfileFormSubmit);
-buttonOpenProfile.addEventListener('click', openProfilePopup);
-buttonOpenEdit.addEventListener('click', () => openPopup(popupOpenCard));
+
+const popupOpenEd = new Popup('.popup_card-add')
+popupOpenEd.setEventListeners()
+buttonOpenEdit.addEventListener('click', _ => {
+  popupOpenEd.open()
+})
+// function closeByEscape(evt) {
+//   if (evt.key === 'Escape') {
+//     const openedPopup = document.querySelector('.popup_opened');
+//     closePopup(openedPopup)
+//   }
+// }
+// export function openPopup (popup) {
+//   popup.classList.add('popup_opened');
+//   document.addEventListener('keydown', closeByEscape); 
+// }
+
+// export function closePopup (popup) {
+//   popup.classList.remove('popup_opened');
+//   document.removeEventListener('keydown', closeByEscape); 
+// }
+
+
+// buttonOpenProfile.addEventListener('click', openProfilePopup);
+// buttonOpenEdit.addEventListener('click', () => openPopup(popupOpenCard));
 
 const popups = document.querySelectorAll('.popup')
 popups.forEach((popup) => {
     popup.addEventListener('mousedown', (evt) => {
         if (evt.target.classList.contains('popup_opened')) {
-            closePopup(popup)
+            popupOpenProfile.close()
+            popupOpenEd.close()
         }
         if (evt.target.classList.contains('popup__close')) {
-          closePopup(popup)
+          popupOpenProfile.close()
+          popupOpenEd.close()
         }
     })
 })
@@ -109,7 +124,7 @@ function addCard(event) {
   const newCards = createCard(newValues)
   event.target.reset();
   cardAddFormValidator.disableSubmitButton()
-  closePopup(popupOpenCard);
+  popupOpenEd.close()
   elements.prepend(newCards)
 }
 
