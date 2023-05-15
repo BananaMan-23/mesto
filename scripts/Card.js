@@ -1,7 +1,8 @@
 export class Card {
-    constructor(data, cardSelector) {
+    constructor({data, handleCardClick}, cardSelector) {
       this._name = data.name
       this._link = data.link
+      this._handleCardClick = handleCardClick
       this._cardSelector = cardSelector
     }
     _getTemplate () {
@@ -29,14 +30,21 @@ export class Card {
       
   
       this._cards
-      .querySelector('.element__trash')
-      .addEventListener('click', () => {
+        .querySelector('.element__trash')
+        .addEventListener('click', () => {
           this._handleRemoveCard()
         })
   
+      // this._img
+      //   .addEventListener('click', () => {
+      //     this._handleOpenPopupImage()
+      //   })
+      
       this._img
-      .addEventListener('click', () => {
-          this._handleOpenPopupImage()
+        .addEventListener('click', () => {
+          this._handleCardClick({ 
+            name: this._name,
+            src: this._link })
         })
     }
     _handleLikeCard() {
@@ -47,13 +55,13 @@ export class Card {
     _handleRemoveCard() {
       this._cards.remove();
     }
-    _handleOpenPopupImage() {
-      popupImage.src = this._link;
-      popupImage.alt = this._name;
-      popupCaption.textContent = this._name;
-      openPopup(popupZoomImage);
-    }
+    // _handleOpenPopupImage() {
+    //   popupImage.src = this._link;
+    //   popupImage.alt = this._name;
+    //   popupCaption.textContent = this._name;
+    //   // openPopup(popupZoomImage);
+    // }
 }
-const popupCaption = document.querySelector('.popup__caption');
-const popupImage = document.querySelector('.popup__image');
-const popupZoomImage = document.querySelector('.popup_zoom-image');
+// const popupCaption = document.querySelector('.popup__caption');
+// const popupImage = document.querySelector('.popup__image');
+// const popupZoomImage = document.querySelector('.popup_zoom-image');
