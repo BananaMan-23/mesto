@@ -164,7 +164,6 @@ const validation = ({
   errorClass: 'popup__input-error_active'
 }); 
 
-
 const profileEditFormValidator = new FormValidator(validation, popupProfile)
 profileEditFormValidator.enableValidation()
 
