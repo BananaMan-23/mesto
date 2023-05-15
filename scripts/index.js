@@ -131,7 +131,6 @@ function openProfilePopup() {
 //   subtitle.textContent = jobInput.value;
 //   popupOpenProfile.close()
 // }  
-// popupProfile.addEventListener('submit', handleProfileFormSubmit);
 // функция открытия второго попапа
 const popupOpenEd = new Popup('.popup_card-add')
 popupOpenEd.setEventListeners()
