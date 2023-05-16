@@ -18,7 +18,21 @@ export default class Popup {
             this.close()
         }
     }
+    _closePopup() {
+        const popups = document.querySelectorAll('.popup')
+        popups.forEach((popup) => {
+        popup.addEventListener('mousedown', (evt) => {
+            if (evt.target.classList.contains('popup_opened')) {
+                this.close()
+        }
+        if (evt.target.classList.contains('popup__close')) {
+            this.close()
+        }
+    })
+})
+    }
     setEventListeners() {
+        this._closePopup()
         this._popup.querySelector('.popup__close').addEventListener('click', _ => this.close())
     }
 }

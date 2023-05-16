@@ -1,8 +1,9 @@
+// import './index.css';
 import { FormValidator } from "../scripts/FormValidator.js";
 import { Card } from "../scripts/Card.js";
-import  Popup from "../scripts/Popup.js"
-import Section from '../scripts/Section.js'
-import PopupWithForm from '../scripts/PopupWithForm.js'
+import  Popup from "../scripts/Popup.js";
+import Section from '../scripts/Section.js';
+import PopupWithForm from '../scripts/PopupWithForm.js';
 import UserInfo from "../scripts/UserInfo.js";
 import PopupWithImage from "../scripts/PopupWithImage.js";
 
@@ -54,13 +55,22 @@ const popupAdding =  document.querySelector("form[name='popup_adding']");
 const popupProfile = document.querySelector("form[name='popup_profile']")
 const elements = document.querySelector('.elements')
 
+const createCard = (data) => {
+  const card = new Card( {
+    data: data,
+    handleCardClick: _ => {
+      popupFigure.open(data)
+    }
+  }, '.template-cards')
+  return card
+}
+
+
 // Функция отрисовки карточек
 const cardList = new Section( {
   items: initialCards,
   renderer: (item) => {
-    const card = new Card({data: item, handleCardClick: _ => {
-      popupFigure.open(item)
-    }}, '.template-cards')
+    const card = createCard(item)
     const cardElement = card.renderCard()
 
     cardList.addItem(cardElement)
@@ -73,92 +83,50 @@ popupFigure.setEventListeners()
 
 // функция добавления карточки
 const popupFormCardAdd = new PopupWithForm('.popup_card-add', newValues => {
-  
-  const card = new Card({data: newValues, handleCardClick: cardData => {
-    popupFigure.open(cardData)
-  }}, '.template-cards')
+  const card = createCard(newValues)
   const cardElement = card.renderCard()
   cardList.addItem(cardElement)
   cardAddFormValidator.disableSubmitButton()
-  popupOpenEd.close()
+  popupFormCardAdd.close()
 })
 
 popupFormCardAdd.setEventListeners()
-// popupAdding.addEventListener('click', _ => {
-//   const userData = userInfo.getUserInfo()
-//   // profileNameInput.value = userData.name
-//   // profileInfoInput.value = userData.info
-//   popupFormCardAdd.open()
-// })
 
-// const popupFormProfilEd = new PopupWithForm('.popup_profile-edit', _ => {
-//   handleProfileFormSubmit()
-// })
-// popupFormProfilEd.setEventListeners()
-// buttonOpenProfile.addEventListener('click', _ => {
-//   popupFormProfilEd.open()
-//   openProfilePopup()
-// })
+const btn  = document.querySelector('.popup__add-card')
 
 const userInfo = new UserInfo({inputName: '.profile__container-title', inputJob: '.profile__container-subtitle'})
-userInfo.getUserInfo()
-const popupFormProfilEdit = new PopupWithForm('.popup_open-edit', _ => {
+const popupFormProfilEdit = new PopupWithForm('.popup_open-edit', _=> {
   userInfo.setUserInfo(nameInput, jobInput)
   popupFormProfilEdit.close()
-
 })
 popupFormProfilEdit.setEventListeners()
-popupAdding.addEventListener('click', _ => {
+btn.addEventListener('click', _ => {
   const userData = userInfo.getUserInfo()
   profileEditFormValidator.disableSubmitButton()
-  nameInput.value = userData.inputName
-  jobInput.value = userData.inputJob
+  title.value = userData.name
+  subtitle.value = userData.info
 })
-// popupAdding.addEventListener('click', _ => {
-//   nameInput.textContent = userInfo.getUserInfo().value
-//  jobInput.textContent = userInfo.getUserInfo().value
-// })
-
-
-// функция открытия попапа профиля
-const popupOpenProfile = new Popup('.popup_open-edit')
-popupOpenProfile.setEventListeners()
 buttonOpenProfile.addEventListener('click', _ => {
-  popupOpenProfile.open()
+  profileEditFormValidator.enableValidation()
+    popupFormProfilEdit.open()
 })
 function openProfilePopup() {
   nameInput.value = title.textContent;
   jobInput.value = subtitle.textContent;
 }
+buttonOpenProfile.addEventListener('click', openProfilePopup);
 
-// function handleProfileFormSubmit (evt) {
-//   evt.preventDefault(); 
-//   title.textContent = nameInput.value; 
-//   subtitle.textContent = jobInput.value;
-//   popupOpenProfile.close()
-// }  
+
 // функция открытия второго попапа
 const popupOpenEd = new Popup('.popup_card-add')
 popupOpenEd.setEventListeners()
 buttonOpenEdit.addEventListener('click', _ => {
+  cardAddFormValidator.enableValidation()
+
   popupOpenEd.open()
 })
 
-buttonOpenProfile.addEventListener('click', openProfilePopup);
 
-const popups = document.querySelectorAll('.popup')
-popups.forEach((popup) => {
-    popup.addEventListener('mousedown', (evt) => {
-        if (evt.target.classList.contains('popup_opened')) {
-            popupOpenProfile.close()
-            popupOpenEd.close()
-        }
-        if (evt.target.classList.contains('popup__close')) {
-          popupOpenProfile.close()
-          popupOpenEd.close()
-        }
-    })
-})
 
 const validation = ({
   formSelector: '.popup__form',

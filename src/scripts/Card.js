@@ -39,7 +39,6 @@ export class Card {
       //   .addEventListener('click', () => {
       //     this._handleOpenPopupImage()
       //   })
-      
       this._img
         .addEventListener('click', () => {
           this._handleCardClick({ 
