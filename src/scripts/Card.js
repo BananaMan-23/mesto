@@ -6,30 +6,30 @@ export class Card {
       this._cardSelector = cardSelector
     }
     _getTemplate () {
-      this._cards = document
+      this._card = document
       .querySelector(this._cardSelector)
       .content
       .querySelector('.element')
       .cloneNode(true)
     }
-    renderCards() {
+    renderCard() {
       this._getTemplate()
       this._setEventListeners()
       this._img.alt = this._name
       this._img.src = this._link
-      this._cards.querySelector('.element__group-subtitle').textContent = this._name    
+      this._card.querySelector('.element__group-subtitle').textContent = this._name    
       // container.prepend(this._cards)
-      return this._cards
+      return this._card
     }
     _setEventListeners() {
-      this._img = this._cards.querySelector('.element__image')
-      this._like = this._cards.querySelector('.element__group-like')
+      this._img = this._card.querySelector('.element__image')
+      this._like = this._card.querySelector('.element__group-like')
       this._like.addEventListener('click', () => {
         this._handleLikeCard()
         })
       
   
-      this._cards
+      this._card
         .querySelector('.element__trash')
         .addEventListener('click', () => {
           this._handleRemoveCard()
@@ -53,7 +53,7 @@ export class Card {
       toggle('element__group-like_active')
     }
     _handleRemoveCard() {
-      this._cards.remove();
+      this._card.remove();
     }
     // _handleOpenPopupImage() {
     //   popupImage.src = this._link;

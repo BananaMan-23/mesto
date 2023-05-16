@@ -1,10 +1,10 @@
-import { FormValidator } from "./FormValidator.js";
-import { Card } from "./Card.js";
-import  Popup from "./Popup.js"
-import Section from './Section.js'
-import PopupWithForm from './PopupWithForm.js'
-import UserInfo from "./UserInfo.js";
-import PopupWithImage from "./PopupWithImage.js";
+import { FormValidator } from "../scripts/FormValidator.js";
+import { Card } from "../scripts/Card.js";
+import  Popup from "../scripts/Popup.js"
+import Section from '../scripts/Section.js'
+import PopupWithForm from '../scripts/PopupWithForm.js'
+import UserInfo from "../scripts/UserInfo.js";
+import PopupWithImage from "../scripts/PopupWithImage.js";
 
 const initialCards = [
     {
@@ -61,7 +61,7 @@ const cardList = new Section( {
     const card = new Card({data: item, handleCardClick: _ => {
       popupFigure.open(item)
     }}, '.template-cards')
-    const cardElement = card.renderCards()
+    const cardElement = card.renderCard()
 
     cardList.addItem(cardElement)
   } }, '.elements')
@@ -74,10 +74,10 @@ popupFigure.setEventListeners()
 // функция добавления карточки
 const popupFormCardAdd = new PopupWithForm('.popup_card-add', newValues => {
   
-  const card = new Card({data: newValues, handleCardClick: _ => {
-    popupFigure.open(newValues)
+  const card = new Card({data: newValues, handleCardClick: cardData => {
+    popupFigure.open(cardData)
   }}, '.template-cards')
-  const cardElement = card.renderCards()
+  const cardElement = card.renderCard()
   cardList.addItem(cardElement)
   cardAddFormValidator.disableSubmitButton()
   popupOpenEd.close()
@@ -100,18 +100,24 @@ popupFormCardAdd.setEventListeners()
 //   openProfilePopup()
 // })
 
-const userInfo = new UserInfo({name: '.profile__container-title', job: '.profile__container-subtitle'})
+const userInfo = new UserInfo({inputName: '.profile__container-title', inputJob: '.profile__container-subtitle'})
 userInfo.getUserInfo()
 const popupFormProfilEdit = new PopupWithForm('.popup_open-edit', _ => {
-  userInfo.setUserInfo()
+  userInfo.setUserInfo(nameInput, jobInput)
   popupFormProfilEdit.close()
 
 })
 popupFormProfilEdit.setEventListeners()
 popupAdding.addEventListener('click', _ => {
-  nameInput.textContent = userInfo.getUserInfo().value
- jobInput.textContent = userInfo.getUserInfo().value
+  const userData = userInfo.getUserInfo()
+  profileEditFormValidator.disableSubmitButton()
+  nameInput.value = userData.inputName
+  jobInput.value = userData.inputJob
 })
+// popupAdding.addEventListener('click', _ => {
+//   nameInput.textContent = userInfo.getUserInfo().value
+//  jobInput.textContent = userInfo.getUserInfo().value
+// })
 
 
 // функция открытия попапа профиля
