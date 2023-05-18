@@ -55,77 +55,70 @@ const popupAdding =  document.querySelector("form[name='popup_adding']");
 const popupProfile = document.querySelector("form[name='popup_profile']")
 const elements = document.querySelector('.elements')
 
-const createCard = (data) => {
-  const card = new Card( {
-    data: data,
-    handleCardClick: _ => {
-      popupFigure.open(data)
+const createCard = (data) => { 
+  const card = new Card( { 
+    data: data, 
+    handleCardClick: cardData => {
+      popupFigure.open(cardData) 
     }
-  }, '.template-cards')
-  return card
+  }, '.template-cards');
+  cardList.addItem(card.renderCard());
 }
 
 
-// Функция отрисовки карточек
 const cardList = new Section( {
   items: initialCards,
   renderer: (item) => {
-    const card = createCard(item)
-    const cardElement = card.renderCard()
-
-    cardList.addItem(cardElement)
+    createCard(item)
   } }, '.elements')
-
 cardList.render()
 
 const popupFigure = new PopupWithImage('.popup_zoom-image')
 popupFigure.setEventListeners()
 
-// функция добавления карточки
+
 const popupFormCardAdd = new PopupWithForm('.popup_card-add', newValues => {
-  const card = createCard(newValues)
-  const cardElement = card.renderCard()
-  cardList.addItem(cardElement)
-  cardAddFormValidator.disableSubmitButton()
+  createCard(newValues)
   popupFormCardAdd.close()
 })
-
 popupFormCardAdd.setEventListeners()
 
 const btn  = document.querySelector('.popup__add-card')
-
-const userInfo = new UserInfo({inputName: '.profile__container-title', inputJob: '.profile__container-subtitle'})
-const popupFormProfilEdit = new PopupWithForm('.popup_open-edit', _=> {
-  userInfo.setUserInfo(nameInput, jobInput)
+const userInfo = new UserInfo({inputNameSelector: '.profile__container-title', inputJobSelector: '.profile__container-subtitle'})
+const popupFormProfilEdit = new PopupWithForm('.popup_open-edit', newValues => {
+  userInfo.setUserInfo(newValues.name, newValues.info)
   popupFormProfilEdit.close()
 })
 popupFormProfilEdit.setEventListeners()
+
+function openProfilePopup() {
+  profileEditFormValidator.disableSubmitButton()
+  const userData = userInfo.getUserInfo()
+  nameInput.value = userData.name
+  jobInput.value = userData.info
+  popupFormProfilEdit.open()
+}
+buttonOpenProfile.addEventListener('click', openProfilePopup);
+
+
+
 btn.addEventListener('click', _ => {
   const userData = userInfo.getUserInfo()
   profileEditFormValidator.disableSubmitButton()
   title.value = userData.name
   subtitle.value = userData.info
 })
-buttonOpenProfile.addEventListener('click', _ => {
-  profileEditFormValidator.enableValidation()
-    popupFormProfilEdit.open()
-})
-function openProfilePopup() {
+
+function openProfilePop() {
   nameInput.value = title.textContent;
   jobInput.value = subtitle.textContent;
 }
-buttonOpenProfile.addEventListener('click', openProfilePopup);
+buttonOpenProfile.addEventListener('click', openProfilePop);
 
-
-// функция открытия второго попапа
-const popupOpenEd = new Popup('.popup_card-add')
-popupOpenEd.setEventListeners()
 buttonOpenEdit.addEventListener('click', _ => {
-  cardAddFormValidator.enableValidation()
-
-  popupOpenEd.open()
+  cardAddFormValidator.disableSubmitButton()
+  popupFormCardAdd.open()
 })
-
 
 
 const validation = ({

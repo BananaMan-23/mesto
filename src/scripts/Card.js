@@ -35,15 +35,11 @@ export class Card {
           this._handleRemoveCard()
         })
   
-      // this._img
-      //   .addEventListener('click', () => {
-      //     this._handleOpenPopupImage()
-      //   })
       this._img
         .addEventListener('click', () => {
           this._handleCardClick({ 
             name: this._name,
-            src: this._link })
+            link: this._link })
         })
     }
     _handleLikeCard() {
@@ -54,13 +50,4 @@ export class Card {
     _handleRemoveCard() {
       this._card.remove();
     }
-    // _handleOpenPopupImage() {
-    //   popupImage.src = this._link;
-    //   popupImage.alt = this._name;
-    //   popupCaption.textContent = this._name;
-    //   // openPopup(popupZoomImage);
-    // }
 }
-// const popupCaption = document.querySelector('.popup__caption');
-// const popupImage = document.querySelector('.popup__image');
-// const popupZoomImage = document.querySelector('.popup_zoom-image');
