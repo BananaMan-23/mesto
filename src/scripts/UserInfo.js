@@ -9,9 +9,10 @@ export default class UserInfo {
             inputJob: this._profileJob.textContent 
         }
         return this._user
+
     }
-    setUserInfo(data) {
-        this._profileName.textContent = data.value
-        this._profileJob.textContent = data.value
+    setUserInfo(name, job) {
+        this._profileName.textContent = name.value
+        this._profileJob.textContent = job.value
     }
 }

@@ -1,7 +1,7 @@
 // import './index.css';
 import { FormValidator } from "../scripts/FormValidator.js";
 import { Card } from "../scripts/Card.js";
-import  Popup from "../scripts/Popup.js";
+// import  Popup from "../scripts/Popup.js";
 import Section from '../scripts/Section.js';
 import PopupWithForm from '../scripts/PopupWithForm.js';
 import UserInfo from "../scripts/UserInfo.js";
@@ -54,6 +54,8 @@ const placeUrlCard = document.querySelector('.popup__input_place_url');
 const popupAdding =  document.querySelector("form[name='popup_adding']");
 const popupProfile = document.querySelector("form[name='popup_profile']")
 const elements = document.querySelector('.elements')
+const btn  = document.querySelector('.popup__add-card')
+
 
 const createCard = (data) => { 
   const card = new Card( { 
@@ -83,37 +85,23 @@ const popupFormCardAdd = new PopupWithForm('.popup_card-add', newValues => {
 })
 popupFormCardAdd.setEventListeners()
 
-const btn  = document.querySelector('.popup__add-card')
 const userInfo = new UserInfo({inputNameSelector: '.profile__container-title', inputJobSelector: '.profile__container-subtitle'})
-const popupFormProfilEdit = new PopupWithForm('.popup_open-edit', newValues => {
-  userInfo.setUserInfo(newValues.name, newValues.info)
+const popupFormProfilEdit = new PopupWithForm('.popup_open-edit', _ => {
+  userInfo.setUserInfo(nameInput, jobInput)
   popupFormProfilEdit.close()
 })
 popupFormProfilEdit.setEventListeners()
 
+
 function openProfilePopup() {
   profileEditFormValidator.disableSubmitButton()
-  const userData = userInfo.getUserInfo()
-  nameInput.value = userData.name
-  jobInput.value = userData.info
-  popupFormProfilEdit.open()
-}
-buttonOpenProfile.addEventListener('click', openProfilePopup);
-
-
-
-btn.addEventListener('click', _ => {
-  const userData = userInfo.getUserInfo()
-  profileEditFormValidator.disableSubmitButton()
-  title.value = userData.name
-  subtitle.value = userData.info
-})
-
-function openProfilePop() {
+  userInfo.getUserInfo()
   nameInput.value = title.textContent;
   jobInput.value = subtitle.textContent;
+  popupFormProfilEdit.open()
+
 }
-buttonOpenProfile.addEventListener('click', openProfilePop);
+buttonOpenProfile.addEventListener('click', openProfilePopup);
 
 buttonOpenEdit.addEventListener('click', _ => {
   cardAddFormValidator.disableSubmitButton()

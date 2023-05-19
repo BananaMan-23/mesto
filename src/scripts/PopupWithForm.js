@@ -13,6 +13,7 @@ export default class PopupWithForm extends Popup {
     })
     return this._newValues
     }
+    
     close() {
         super.close()
         this._popupForm.reset()
