@@ -52,9 +52,6 @@ const placeNameCard = document.querySelector('.popup__input_place_name');
 const placeUrlCard = document.querySelector('.popup__input_place_url');
 const popupAdding =  document.querySelector("form[name='popup_adding']");
 const popupProfile = document.querySelector("form[name='popup_profile']")
-const elements = document.querySelector('.elements')
-const btn  = document.querySelector('.popup__add-card')
-
 
 const createCard = (data) => { 
   const card = new Card( { 
@@ -85,8 +82,8 @@ const popupFormCardAdd = new PopupWithForm('.popup_card-add', newValues => {
 popupFormCardAdd.setEventListeners()
 
 const userInfo = new UserInfo({inputNameSelector: '.profile__container-title', inputJobSelector: '.profile__container-subtitle'})
-const popupFormProfilEdit = new PopupWithForm('.popup_open-edit', _ => {
-  userInfo.setUserInfo(nameInput, jobInput)
+const popupFormProfilEdit = new PopupWithForm('.popup_open-edit', newValues => {
+  userInfo.setUserInfo(newValues.name, newValues.info);
   popupFormProfilEdit.close()
 })
 popupFormProfilEdit.setEventListeners()
