@@ -35,7 +35,7 @@ const initialCards = [
 ];
 // кнопка открытия редактирования профиля
 const buttonOpenProfile = document.querySelector('.profile__container-edit');
-// const popupOpenEdit = document.querySelector('.popup_open-edit');
+const profileAvatar = document.querySelector('.profile__avatar');
 // ввод имени
 const nameInput = document.querySelector('#name-input');
 // ввод статуса профиля
@@ -76,11 +76,26 @@ const popupFigure = new PopupWithImage('.popup_zoom-image')
 popupFigure.setEventListeners()
 
 
+// const popupFormCardAdd = new PopupWithForm('.popup_card-add', newValues => {
+//   createCard(newValues)
+//   popupFormCardAdd.close()
+// })
+// popupFormCardAdd.setEventListeners()
 const popupFormCardAdd = new PopupWithForm('.popup_card-add', newValues => {
-  createCard(newValues)
-  popupFormCardAdd.close()
+  api.addUserCard(newValues)
+    .then((data) => {
+      const card = createCard(data)
+      const cardElement = card.renderCard()
+      cardList.addItem(cardElement)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+    popupFormCardAdd.close()
+  cardAddFormValidator.disableSubmitButton()
 })
 popupFormCardAdd.setEventListeners()
+
 
 const userInfo = new UserInfo({inputNameSelector: '.profile__container-title', inputJobSelector: '.profile__container-subtitle'})
 const popupFormProfilEdit = new PopupWithForm('.popup_open-edit', newValues => {
