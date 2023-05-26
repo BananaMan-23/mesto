@@ -5,6 +5,7 @@ import Section from '../scripts/Section.js';
 import PopupWithForm from '../scripts/PopupWithForm.js';
 import UserInfo from "../scripts/UserInfo.js";
 import PopupWithImage from "../scripts/PopupWithImage.js";
+import Api from "../scripts/Api.js"
 
 const initialCards = [
     {
@@ -119,3 +120,13 @@ profileEditFormValidator.enableValidation()
 
 const cardAddFormValidator = new FormValidator(validation, popupAdding)
 cardAddFormValidator.enableValidation()
+
+
+
+const api = new Api({
+  url: 'https://mesto.nomoreparties.co/v1/cohort-66',
+  headers: {
+    authorization: '1790fb33-a99f-4e21-b0c7-67d6836b01a4',
+    'Content-Type': 'application/json'
+  }
+})
