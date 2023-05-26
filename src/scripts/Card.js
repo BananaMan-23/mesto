@@ -18,7 +18,6 @@ export class Card {
       this._img.alt = this._name
       this._img.src = this._link
       this._card.querySelector('.element__group-subtitle').textContent = this._name    
-      // container.prepend(this._cards)
       return this._card
     }
     _setEventListeners() {
