@@ -139,7 +139,7 @@ cardAddFormValidator.enableValidation()
 
 
 const api = new Api({
-  url: 'https://mesto.nomoreparties.co/v1/cohort-66',
+  url: 'https://mesto.nomoreparties.co/v1/cohort-66/cards',
   headers: {
     authorization: '1790fb33-a99f-4e21-b0c7-67d6836b01a4',
     'Content-Type': 'application/json'
