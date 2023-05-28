@@ -34,7 +34,7 @@ const initialCards = [
 ];
 // кнопка открытия редактирования профиля
 const buttonOpenProfile = document.querySelector('.profile__container-edit');
-const profileAvatar = document.querySelector('.profile__avatar');
+// const popupOpenEdit = document.querySelector('.popup_open-edit');
 // ввод имени
 const nameInput = document.querySelector('#name-input');
 // ввод статуса профиля
@@ -51,81 +51,40 @@ const placeNameCard = document.querySelector('.popup__input_place_name');
 // ссылка на карточку
 const placeUrlCard = document.querySelector('.popup__input_place_url');
 const popupAdding =  document.querySelector("form[name='popup_adding']");
-const popupProfile = document.querySelector("form[name='popup_profile']");
-const popupDeleteConfigSelector = document.querySelector('.popup_confirm-delete');
-const infoSelector = {
-  inputNameSelector: '.profile__container-title',
-  inputJobSelector: '.profile__container-subtitle',
-  avatarSelector: '.profile__avatar'
-}
-
-const api = new Api({
-  url: 'https://mesto.nomoreparties.co/v1/cohort-66',
-  headers: {
-    authorization: '1790fb33-a99f-4e21-b0c7-67d6836b01a4',
-    'Content-Type': 'application/json'
-  }
-})
+const popupProfile = document.querySelector("form[name='popup_profile']")
 
 const createCard = (data) => { 
   const card = new Card( { 
     data: data, 
     handleCardClick: cardData => {
       popupFigure.open(cardData) 
-    },
-    // handleDeleteCard: _ => {
-    //   const configDeletePopup = new PopupWidthConfiguration(popupDeleteConfigSelector, api.deleteCard(data._id))
-    //   configDeletePopup.open()
-    // }
-  }, '.template-cards', api);
+    }
+  }, '.template-cards');
   cardList.addItem(card.renderCard());
 }
 
 
 const cardList = new Section( {
-  // items: initialCards,
+  items: initialCards,
   renderer: (item) => {
     createCard(item)
   } }, '.elements')
-// cardList.render()
-
-// const cardList = new Section((element) => {
-//   cardList.addItem(createCard(element))
-// }, '.elements')
-// cardList.render(initialCards)
+cardList.render()
 
 const popupFigure = new PopupWithImage('.popup_zoom-image')
 popupFigure.setEventListeners()
 
 
-
-// const popupFormCardAdd = new PopupWithForm('.popup_card-add', newValues => {
-//   createCard(newValues)
-//   popupFormCardAdd.close()
-// })
-// popupFormCardAdd.setEventListeners()
 const popupFormCardAdd = new PopupWithForm('.popup_card-add', newValues => {
-  api.addUserCard(newValues)
-    .then((data) => {
-      const card = createCard(data)
-      const cardElement = card.renderCard()
-      cardList.addItem(cardElement)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-    popupFormCardAdd.close()
-  cardAddFormValidator.disableSubmitButton()
+  createCard(newValues)
+  popupFormCardAdd.close()
 })
 popupFormCardAdd.setEventListeners()
 
 const userInfo = new UserInfo({inputNameSelector: '.profile__container-title', inputJobSelector: '.profile__container-subtitle'})
 const popupFormProfilEdit = new PopupWithForm('.popup_open-edit', newValues => {
-  api.setUserInfo(newValues)
-    .then((data) => {
-      userInfo.setUserInfo(data.name, data.about)
-      popupFormProfilEdit.close()
-    })
+  userInfo.setUserInfo(newValues.name, newValues.info);
+  popupFormProfilEdit.close()
 })
 popupFormProfilEdit.setEventListeners()
 
