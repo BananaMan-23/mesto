@@ -5,8 +5,6 @@ import Section from '../scripts/Section.js';
 import PopupWithForm from '../scripts/PopupWithForm.js';
 import UserInfo from "../scripts/UserInfo.js";
 import PopupWithImage from "../scripts/PopupWithImage.js";
-import Api from "../scripts/Api.js"
-import PopupWidthConfiguration from "../scripts/PopupWidthConfiguration";
 
 const initialCards = [
     {
@@ -101,6 +99,11 @@ popupFigure.setEventListeners()
 
 
 
+// const popupFormCardAdd = new PopupWithForm('.popup_card-add', newValues => {
+//   createCard(newValues)
+//   popupFormCardAdd.close()
+// })
+// popupFormCardAdd.setEventListeners()
 const popupFormCardAdd = new PopupWithForm('.popup_card-add', newValues => {
   api.addUserCard(newValues)
     .then((data) => {
@@ -116,9 +119,7 @@ const popupFormCardAdd = new PopupWithForm('.popup_card-add', newValues => {
 })
 popupFormCardAdd.setEventListeners()
 
-
-const userInfo = new UserInfo(infoSelector)
-
+const userInfo = new UserInfo({inputNameSelector: '.profile__container-title', inputJobSelector: '.profile__container-subtitle'})
 const popupFormProfilEdit = new PopupWithForm('.popup_open-edit', newValues => {
   api.setUserInfo(newValues)
     .then((data) => {
@@ -159,28 +160,3 @@ profileEditFormValidator.enableValidation()
 
 const cardAddFormValidator = new FormValidator(validation, popupAdding)
 cardAddFormValidator.enableValidation()
-
-
-const cards = api.getInitialCards()
-cards
-  .then((data) => {
-    cardList.render(data)
-  })
-  .catch(err => {
-      console.log('Ошибка', err)
-  })
-
-// const apiInfo = api.getUserInfo()
-//   apiInfo
-//     .then((data) => {
-//       userInfo.setUserInfo(data)
-//     })
-//     .catch((err) => {
-//       console.log(err)
-//     })
-
-Promise.all([api.getUserInfo(), api.getInitialCards()])
-  .then(([dataUser, dataCard]) => {
-    console.log(dataUser)
-    // userInfo.setUserInfo({name: dataUser.name, job: dataUser.about, avatar: dataUser.avatar})
-  })
