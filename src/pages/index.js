@@ -5,6 +5,8 @@ import Section from '../scripts/Section.js';
 import PopupWithForm from '../scripts/PopupWithForm.js';
 import UserInfo from "../scripts/UserInfo.js";
 import PopupWithImage from "../scripts/PopupWithImage.js";
+import Api from "../scripts/Api.js"
+import PopupWidthConfiguration from "../scripts/PopupWidthConfiguration";
 
 const initialCards = [
     {
@@ -34,7 +36,7 @@ const initialCards = [
 ];
 // кнопка открытия редактирования профиля
 const buttonOpenProfile = document.querySelector('.profile__container-edit');
-// const popupOpenEdit = document.querySelector('.popup_open-edit');
+const profileAvatar = document.querySelector('.profile__avatar');
 // ввод имени
 const nameInput = document.querySelector('#name-input');
 // ввод статуса профиля
@@ -51,40 +53,78 @@ const placeNameCard = document.querySelector('.popup__input_place_name');
 // ссылка на карточку
 const placeUrlCard = document.querySelector('.popup__input_place_url');
 const popupAdding =  document.querySelector("form[name='popup_adding']");
-const popupProfile = document.querySelector("form[name='popup_profile']")
+const popupProfile = document.querySelector("form[name='popup_profile']");
+const popupDeleteConfigSelector = document.querySelector('.popup_confirm-delete');
+const infoSelector = {
+  inputNameSelector: '.profile__container-title',
+  inputJobSelector: '.profile__container-subtitle',
+  avatarSelector: '.profile__avatar'
+}
+
+const api = new Api({
+  url: 'https://mesto.nomoreparties.co/v1/cohort-66',
+  headers: {
+    authorization: '1790fb33-a99f-4e21-b0c7-67d6836b01a4',
+    'Content-Type': 'application/json'
+  }
+})
 
 const createCard = (data) => { 
   const card = new Card( { 
     data: data, 
     handleCardClick: cardData => {
       popupFigure.open(cardData) 
-    }
-  }, '.template-cards');
+    },
+    // handleDeleteCard: _ => {
+    //   const configDeletePopup = new PopupWidthConfiguration(popupDeleteConfigSelector, api.deleteCard(data._id))
+    //   configDeletePopup.open()
+    // }
+  }, '.template-cards', api);
   cardList.addItem(card.renderCard());
 }
 
 
 const cardList = new Section( {
-  items: initialCards,
+  // items: initialCards,
   renderer: (item) => {
     createCard(item)
   } }, '.elements')
-cardList.render()
+// cardList.render()
+
+// const cardList = new Section((element) => {
+//   cardList.addItem(createCard(element))
+// }, '.elements')
+// cardList.render(initialCards)
 
 const popupFigure = new PopupWithImage('.popup_zoom-image')
 popupFigure.setEventListeners()
 
 
+
 const popupFormCardAdd = new PopupWithForm('.popup_card-add', newValues => {
-  createCard(newValues)
-  popupFormCardAdd.close()
+  api.addUserCard(newValues)
+    .then((data) => {
+      const card = createCard(data)
+      const cardElement = card.renderCard()
+      cardList.addItem(cardElement)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+    popupFormCardAdd.close()
+  cardAddFormValidator.disableSubmitButton()
 })
 popupFormCardAdd.setEventListeners()
 
-const userInfo = new UserInfo({inputNameSelector: '.profile__container-title', inputJobSelector: '.profile__container-subtitle'})
+
+const userInfo = new UserInfo(infoSelector)
+
 const popupFormProfilEdit = new PopupWithForm('.popup_open-edit', newValues => {
-  userInfo.setUserInfo(newValues.name, newValues.info);
-  popupFormProfilEdit.close()
+  api.setUserInfo(newValues)
+    .then((data) => {
+      userInfo.setUserInfo(data.name, data.about)
+      popupFormProfilEdit.close()
+    })
 })
 popupFormProfilEdit.setEventListeners()
 
@@ -119,3 +159,28 @@ profileEditFormValidator.enableValidation()
 
 const cardAddFormValidator = new FormValidator(validation, popupAdding)
 cardAddFormValidator.enableValidation()
+
+
+const cards = api.getInitialCards()
+cards
+  .then((data) => {
+    cardList.render(data)
+  })
+  .catch(err => {
+      console.log('Ошибка', err)
+  })
+
+// const apiInfo = api.getUserInfo()
+//   apiInfo
+//     .then((data) => {
+//       userInfo.setUserInfo(data)
+//     })
+//     .catch((err) => {
+//       console.log(err)
+//     })
+
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([dataUser, dataCard]) => {
+    console.log(dataUser)
+    // userInfo.setUserInfo({name: dataUser.name, job: dataUser.about, avatar: dataUser.avatar})
+  })
