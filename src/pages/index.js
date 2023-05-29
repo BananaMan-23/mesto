@@ -5,7 +5,8 @@ import Section from '../scripts/Section.js';
 import PopupWithForm from '../scripts/PopupWithForm.js';
 import UserInfo from "../scripts/UserInfo.js";
 import PopupWithImage from "../scripts/PopupWithImage.js";
-
+import Api from "../scripts/Api.js";
+import PopupDelete from "../scripts/PopupDelete.js"
 const initialCards = [
     {
       name: 'Архыз',
@@ -53,37 +54,86 @@ const placeUrlCard = document.querySelector('.popup__input_place_url');
 const popupAdding =  document.querySelector("form[name='popup_adding']");
 const popupProfile = document.querySelector("form[name='popup_profile']")
 
+const popupAvatar = document.querySelector("form[name='popup_avatar']")
+const popupDelete = document.querySelector("form[name='popup_delete']")
+const profileAvatar = document.querySelector('.profile__avatar')
+const buttonOpenAvatar = document.querySelector('.profile__avatar-edit-button')
+const popupConfigDelete = document.querySelector('.popup_config-delete')
+const infoSelector = {
+  inputNameSelector: '.profile__container-title',
+  inputJobSelector: '.profile__container-subtitle',
+  avatarSelector: '.profile__avatar'
+}
+const api = new Api({
+  url: 'https://mesto.nomoreparties.co/v1/cohort-66',
+  headers: {
+    authorization: '1790fb33-a99f-4e21-b0c7-67d6836b01a4',
+    'Content-Type': 'application/json'
+  }
+})
+
+
+const deleteFormCard = new PopupDelete('.popup_config-delete', (item) => {
+  item.deleteCard()
+  deleteFormCard.close()
+})
+deleteFormCard.setEventListeners()
+
+
 const createCard = (data) => { 
   const card = new Card( { 
     data: data, 
     handleCardClick: cardData => {
       popupFigure.open(cardData) 
     }
-  }, '.template-cards');
-  cardList.addItem(card.renderCard());
+  }, '.template-cards', deleteFormCard.open, (like, cardId) => {
+    if(like.classList.contains('element__group-like_active')){
+      api.inActiveLike(cardId)
+        .then(res => {
+          card.toggleLike(res.likes)
+        })
+        .catch((err => console.log(`Ошибка ${err}`)))
+    } else {
+      api.activeLike(cardId)
+        .then(res => {
+          card.toggleLike(res.likes)
+        })
+        .catch((err => console.log(`Ошибка ${err}`)))
+    }   
+  });
+  return card.renderCard()
 }
 
 
-const cardList = new Section( {
-  items: initialCards,
-  renderer: (item) => {
-    createCard(item)
-  } }, '.elements')
-cardList.render()
+const cardList = new Section((element) => {
+  cardList.addItem(createCard(element))
+}, '.elements')
+
 
 const popupFigure = new PopupWithImage('.popup_zoom-image')
 popupFigure.setEventListeners()
 
 
 const popupFormCardAdd = new PopupWithForm('.popup_card-add', newValues => {
-  createCard(newValues)
-  popupFormCardAdd.close()
+  Promise.all([api.getUserInfo(), api.addCard(newValues)])
+   .then(([dataUser, dataCard]) => {
+    dataCard.myid = dataUser._id;
+    cardList.addItem(createCard(dataCard));
+    popupFormCardAdd.close()
+   })
+   .catch((err => console.log(`Ошибка ${err}`)))
+
 })
 popupFormCardAdd.setEventListeners()
 
-const userInfo = new UserInfo({inputNameSelector: '.profile__container-title', inputJobSelector: '.profile__container-subtitle'})
+const userInfo = new UserInfo(infoSelector)
 const popupFormProfilEdit = new PopupWithForm('.popup_open-edit', newValues => {
-  userInfo.setUserInfo(newValues.name, newValues.info);
+  api.setUserInfo(newValues)
+    .then(res => {
+      userInfo.setUserInfo({name: res.name, info: res.about, avatar: res.avatar})
+    })
+    .catch((err => console.log(`Ошибка ввода ${err}`)))
+  // userInfo.setUserInfo(newValues);
   popupFormProfilEdit.close()
 })
 popupFormProfilEdit.setEventListeners()
@@ -119,3 +169,31 @@ profileEditFormValidator.enableValidation()
 
 const cardAddFormValidator = new FormValidator(validation, popupAdding)
 cardAddFormValidator.enableValidation()
+//валидация аватара
+const profileEditAvatar = new FormValidator(validation, popupAvatar)
+
+
+
+const avatarEditSelector = new PopupWithForm('.popup_avatar', (data) => {
+  api.setUserAvatar(data)
+  .then(res => {
+    userInfo.setUserInfo({name: res.name, info: res.about, avatar: res.avatar})
+  })
+  .catch((err => console.log(`Ошибка ${err}`)))
+  avatarEditSelector.close()
+})
+avatarEditSelector.setEventListeners()
+
+buttonOpenAvatar.addEventListener('click', () => {
+  profileEditAvatar.enableValidation()
+  avatarEditSelector.open()
+})
+
+
+Promise.all([api.getUserInfo(), api.getUserCard()])
+  .then(([dataUser, dataCard]) => {
+    dataCard.forEach(item => item.myid = dataUser._id)
+    userInfo.setUserInfo({name: dataUser.name, info: dataUser.about, avatar: dataUser.avatar})
+    cardList.render(dataCard.reverse())
+  })
+  .catch((err => console.log(`Ошибка ${err}`)))
