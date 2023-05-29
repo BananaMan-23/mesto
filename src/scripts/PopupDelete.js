@@ -1,20 +1,21 @@
 import Popup from "./Popup.js";
 
-export default class PopupCardDelete extends Popup {
-    constructor(popupSelector, buttonSelector) {
+export default class PopupDelete extends Popup {
+    constructor(popupSelector, handleClickDelete) {
         super(popupSelector)
-        this._buttonSelector = buttonSelector
+        this._handleClickDelete = handleClickDelete
         
     }
     setEventListeners() {
         super.setEventListeners()
         this._form.addEventListener('submit', (evt) => {
             evt.preventDefault()
-            this._buttonSelector(this._element)
+            this._handleClickDelete({card: this._card, cardId: this._cardId})
         })
     }
-    open = (data) => {
+    open = ({card, cardId}) => {
         super.open()
-        this._element = data
+        this._card = card
+        this._cardId = cardId
     }
 }

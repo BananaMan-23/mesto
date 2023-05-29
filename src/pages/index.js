@@ -55,7 +55,7 @@ const popupAdding =  document.querySelector("form[name='popup_adding']");
 const popupProfile = document.querySelector("form[name='popup_profile']")
 
 const popupAvatar = document.querySelector("form[name='popup_avatar']")
-const popupDelete = document.querySelector("form[name='popup_delete']")
+// const popupDelete = document.querySelector("form[name='popup_delete']")
 const profileAvatar = document.querySelector('.profile__avatar')
 const buttonOpenAvatar = document.querySelector('.profile__avatar-edit-button')
 const popupConfigDelete = document.querySelector('.popup_config-delete')
@@ -73,9 +73,12 @@ const api = new Api({
 })
 
 
-const deleteFormCard = new PopupDelete('.popup_config-delete', (item) => {
-  item.deleteCard()
-  deleteFormCard.close()
+const deleteFormCard = new PopupDelete('.popup_config-delete', ({card, cardId}) => {
+  api.deleteCard(cardId)
+    .then(res => {
+      card.remove();
+      deleteFormCard.close()
+    })
 })
 deleteFormCard.setEventListeners()
 
@@ -103,6 +106,9 @@ const createCard = (data) => {
   });
   return card.renderCard()
 }
+
+
+
 
 
 const cardList = new Section((element) => {
@@ -180,9 +186,11 @@ const avatarEditSelector = new PopupWithForm('.popup_avatar', (data) => {
     userInfo.setUserInfo({name: res.name, info: res.about, avatar: res.avatar})
   })
   .catch((err => console.log(`Ошибка ${err}`)))
+  // .finally(() => avatarEditSelector.textChange())
   avatarEditSelector.close()
 })
 avatarEditSelector.setEventListeners()
+// avatarEditSelector.textChange()
 
 buttonOpenAvatar.addEventListener('click', () => {
   profileEditAvatar.enableValidation()
@@ -197,3 +205,4 @@ Promise.all([api.getUserInfo(), api.getUserCard()])
     cardList.render(dataCard.reverse())
   })
   .catch((err => console.log(`Ошибка ${err}`)))
+

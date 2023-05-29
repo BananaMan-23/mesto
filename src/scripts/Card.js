@@ -56,9 +56,9 @@ export class Card {
       this._likeSelector(this._like, this._cardId)
     }
     _handleRemoveCard() {
-      this._deleteOpenPopup(this)
+      this._deleteOpenPopup({card: this._card, cardId: this._cardId})
     }
-    deleteCard() {
+    removeCard() {
       this._card.remove()
     }
     _checkTreshButton() {
