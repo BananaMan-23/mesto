@@ -4,6 +4,7 @@ export default class PopupDelete extends Popup {
     constructor(popupSelector, handleClickDelete) {
         super(popupSelector)
         this._handleClickDelete = handleClickDelete
+        this._form = this._popup.querySelector('.popup__form')
         
     }
     setEventListeners() {

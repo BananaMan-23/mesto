@@ -7,32 +7,7 @@ import UserInfo from "../scripts/UserInfo.js";
 import PopupWithImage from "../scripts/PopupWithImage.js";
 import Api from "../scripts/Api.js";
 import PopupDelete from "../scripts/PopupDelete.js"
-const initialCards = [
-    {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
+
 // кнопка открытия редактирования профиля
 const buttonOpenProfile = document.querySelector('.profile__container-edit');
 // const popupOpenEdit = document.querySelector('.popup_open-edit');
@@ -79,6 +54,7 @@ const deleteFormCard = new PopupDelete('.popup_config-delete', ({card, cardId}) 
       card.remove();
       deleteFormCard.close()
     })
+    .catch((err => console.log(`Ошибка ${err}`)))
 })
 deleteFormCard.setEventListeners()
 
@@ -128,8 +104,10 @@ const popupFormCardAdd = new PopupWithForm('.popup_card-add', newValues => {
     popupFormCardAdd.close()
    })
    .catch((err => console.log(`Ошибка ${err}`)))
-
+   .finally(() => popupFormCardAdd.textChange())
 })
+
+
 popupFormCardAdd.setEventListeners()
 
 const userInfo = new UserInfo(infoSelector)
@@ -139,17 +117,16 @@ const popupFormProfilEdit = new PopupWithForm('.popup_open-edit', newValues => {
       userInfo.setUserInfo({name: res.name, info: res.about, avatar: res.avatar})
     })
     .catch((err => console.log(`Ошибка ввода ${err}`)))
-  // userInfo.setUserInfo(newValues);
+    .finally(() => popupFormProfilEdit.textChange())
   popupFormProfilEdit.close()
 })
 popupFormProfilEdit.setEventListeners()
 
-
 function openProfilePopup() {
   profileEditFormValidator.disableSubmitButton()
   userInfo.getUserInfo()
-  nameInput.value = title.textContent;
-  jobInput.value = subtitle.textContent;
+  nameInput.textContent = userInfo.getUserInfo()
+  jobInput.textContent = userInfo.getUserInfo()
   popupFormProfilEdit.open()
 
 }
@@ -186,7 +163,7 @@ const avatarEditSelector = new PopupWithForm('.popup_avatar', (data) => {
     userInfo.setUserInfo({name: res.name, info: res.about, avatar: res.avatar})
   })
   .catch((err => console.log(`Ошибка ${err}`)))
-  // .finally(() => avatarEditSelector.textChange())
+  .finally(() => avatarEditSelector.textChange())
   avatarEditSelector.close()
 })
 avatarEditSelector.setEventListeners()
