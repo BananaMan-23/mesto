@@ -50,7 +50,7 @@ const api = new Api({
 
 const deleteFormCard = new PopupDelete('.popup_config-delete', ({card, cardId}) => {
   api.deleteCard(cardId)
-    .then(res => {
+    .then(() => {
       card.remove();
       deleteFormCard.close()
     })
@@ -106,6 +106,7 @@ const popupFormCardAdd = new PopupWithForm('.popup_card-add', newValues => {
    .catch((err => console.log(`Ошибка ${err}`)))
    .finally(() => popupFormCardAdd.textChange())
 })
+
 
 
 popupFormCardAdd.setEventListeners()

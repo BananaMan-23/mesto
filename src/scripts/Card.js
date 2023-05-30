@@ -6,8 +6,7 @@ export class Card {
       this._cardSelector = cardSelector
       this._deleteOpenPopup = deleteOpenPopup
       this._myId = data.myid
-      this._ownerId = data.owner._id
-
+      this._ownerId = data.owner._id      
       this._likes = data.likes
       this._likeLength = data.likes.length
       this._likeSelector = likeSelector
