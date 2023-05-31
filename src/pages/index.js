@@ -59,32 +59,32 @@ const deleteFormCard = new PopupDelete('.popup_config-delete', ({card, cardId}) 
 deleteFormCard.setEventListeners()
 
 
+
+
 const createCard = (data) => { 
   const card = new Card( { 
     data: data, 
     handleCardClick: cardData => {
       popupFigure.open(cardData) 
     }
-  }, '.template-cards', deleteFormCard.open, (like, cardId) => {
-    if(like.classList.contains('element__group-like_active')){
-      api.inActiveLike(cardId)
-        .then(res => {
-          card.toggleLike(res.likes)
+  }, '.template-cards', deleteFormCard.open, () => {
+    const isLike = card.myLikes()
+    if(isLike){
+      api.inActiveLike(data._id)
+        .then((res) => {
+          card.likeCount(res.likes)
+          card.toggleLike()
         })
-        .catch((err => console.log(`Ошибка ${err}`)))
     } else {
-      api.activeLike(cardId)
-        .then(res => {
-          card.toggleLike(res.likes)
+      api.activeLike(data._id)
+        .then((res) => {
+          card.likeCount(res.likes)
+          card.toggleLike()
         })
-        .catch((err => console.log(`Ошибка ${err}`)))
-    }   
+    }
   });
   return card.renderCard()
 }
-
-
-
 
 
 const cardList = new Section((element) => {
@@ -96,20 +96,33 @@ const popupFigure = new PopupWithImage('.popup_zoom-image')
 popupFigure.setEventListeners()
 
 
+// const popupFormCardAdd = new PopupWithForm('.popup_card-add', newValues => {
+//   Promise.all([api.getUserInfo(), api.addCard(newValues)])
+//    .then(([dataUser, dataCard]) => {
+//     dataCard.myid = dataUser._id;
+//     cardList.addItem(createCard(dataCard));
+//     popupFormCardAdd.close()
+//    })
+//    .catch((err => console.log(`Ошибка ${err}`)))
+//    .finally(() => popupFormCardAdd.textChange())
+// })
+// popupFormCardAdd.setEventListeners()
+
 const popupFormCardAdd = new PopupWithForm('.popup_card-add', newValues => {
-  Promise.all([api.getUserInfo(), api.addCard(newValues)])
-   .then(([dataUser, dataCard]) => {
-    dataCard.myid = dataUser._id;
-    cardList.addItem(createCard(dataCard));
+  (api.addCard(newValues))
+   .then((dataCard) => {
+    const dataUser = createCard(dataCard)
+    cardList.addItem(dataUser);
     popupFormCardAdd.close()
+    dataUser.checkTreshButton()
    })
    .catch((err => console.log(`Ошибка ${err}`)))
    .finally(() => popupFormCardAdd.textChange())
 })
-
-
-
 popupFormCardAdd.setEventListeners()
+
+
+
 
 const userInfo = new UserInfo(infoSelector)
 const popupFormProfilEdit = new PopupWithForm('.popup_open-edit', newValues => {
@@ -122,6 +135,7 @@ const popupFormProfilEdit = new PopupWithForm('.popup_open-edit', newValues => {
   popupFormProfilEdit.close()
 })
 popupFormProfilEdit.setEventListeners()
+
 
 function openProfilePopup() {
   profileEditFormValidator.disableSubmitButton()
@@ -168,7 +182,6 @@ const avatarEditSelector = new PopupWithForm('.popup_avatar', (data) => {
   avatarEditSelector.close()
 })
 avatarEditSelector.setEventListeners()
-// avatarEditSelector.textChange()
 
 buttonOpenAvatar.addEventListener('click', () => {
   profileEditAvatar.enableValidation()
@@ -178,9 +191,10 @@ buttonOpenAvatar.addEventListener('click', () => {
 
 Promise.all([api.getUserInfo(), api.getUserCard()])
   .then(([dataUser, dataCard]) => {
-    dataCard.forEach(item => item.myid = dataUser._id)
+    dataCard.forEach(element => element.myid = dataUser._id)
     userInfo.setUserInfo({name: dataUser.name, info: dataUser.about, avatar: dataUser.avatar})
     cardList.render(dataCard.reverse())
   })
   .catch((err => console.log(`Ошибка ${err}`)))
+
 

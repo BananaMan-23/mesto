@@ -22,7 +22,7 @@ export class Card {
     renderCard() {
       this._getTemplate()
       this._setEventListeners()
-      this._checkTreshButton()
+      // this._checkTreshButton()
       this._checkLike()
       this._img.alt = this._name
       this._img.src = this._link
@@ -60,10 +60,13 @@ export class Card {
     removeCard() {
       this._card.remove()
     }
-    _checkTreshButton() {
-      if(!(this._myId === this._ownerId)) {
-        this._card.querySelector('.element__trash').style.display = 'none'
-      }
+    checkTreshButton() {
+      this._myId === this._ownerId ?
+      this._card.querySelector('.element__trash').style.display = 'block':
+      this._card.querySelector('.element__trash').style.display = 'none'
+      // if(!(this._myId === this._ownerId)) {
+      //   this._card.querySelector('.element__trash').style.display = 'none'
+      // }
       return this._card
     }
     _checkLike() {
@@ -75,8 +78,15 @@ export class Card {
       })
       this._count.textContent = this._likeLength
     }
-    toggleLike(item) {
+    toggleLike() {
       this._like.classList.toggle('element__group-like_active')
-      this._count.textContent = item.length
+    }
+
+    myLikes() {
+      return this._likes.find(like => like._id === this._myId)
+    }
+    likeCount(likes) {
+      this._likes = likes
+      this._count.textContent = likes.length
     }
 }
