@@ -12,23 +12,26 @@ export class Card {
       this._likeSelector = likeSelector
       this._cardId = data._id
     }
+
     _getTemplate () {
       this._card = document
       .querySelector(this._cardSelector)
       .content
       .querySelector('.element')
-      .cloneNode(true)
+      .cloneNode(true) 
     }
+
     renderCard() {
       this._getTemplate()
       this._setEventListeners()
-      // this._checkTreshButton()
+      this._checkTreshButton()
       this._checkLike()
       this._img.alt = this._name
       this._img.src = this._link
       this._card.querySelector('.element__group-subtitle').textContent = this._name    
       return this._card
     }
+
     _setEventListeners() {
       this._img = this._card.querySelector('.element__image')
       this._like = this._card.querySelector('.element__group-like')
@@ -36,6 +39,7 @@ export class Card {
       this._like.addEventListener('click', () => {
         this._handleLikeCard()
         })
+
       
   
       this._card
@@ -51,24 +55,28 @@ export class Card {
             link: this._link })
         })
     }
+
     _handleLikeCard() {
       this._likeSelector(this._like, this._cardId)
     }
+
     _handleRemoveCard() {
-      this._deleteOpenPopup({card: this._card, cardId: this._cardId})
+      this._deleteOpenPopup({card: this, cardId: this._cardId})
     }
+
     removeCard() {
       this._card.remove()
+      this._card = null
+      
     }
-    checkTreshButton() {
+
+    _checkTreshButton() {
       this._myId === this._ownerId ?
       this._card.querySelector('.element__trash').style.display = 'block':
       this._card.querySelector('.element__trash').style.display = 'none'
-      // if(!(this._myId === this._ownerId)) {
-      //   this._card.querySelector('.element__trash').style.display = 'none'
-      // }
       return this._card
     }
+
     _checkLike() {
       this._likes.forEach(element => {
         if(element._id === this._myId) {
@@ -78,6 +86,7 @@ export class Card {
       })
       this._count.textContent = this._likeLength
     }
+
     toggleLike() {
       this._like.classList.toggle('element__group-like_active')
     }
@@ -85,6 +94,7 @@ export class Card {
     myLikes() {
       return this._likes.find(like => like._id === this._myId)
     }
+
     likeCount(likes) {
       this._likes = likes
       this._count.textContent = likes.length

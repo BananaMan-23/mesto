@@ -51,7 +51,7 @@ const api = new Api({
 const deleteFormCard = new PopupDelete('.popup_config-delete', ({card, cardId}) => {
   api.deleteCard(cardId)
     .then(() => {
-      card.remove();
+      card.removeCard()
       deleteFormCard.close()
     })
     .catch((err => console.log(`Ошибка ${err}`)))
@@ -75,12 +75,14 @@ const createCard = (data) => {
           card.likeCount(res.likes)
           card.toggleLike()
         })
+        .catch((err => console.log(`Ошибка ${err}`)))
     } else {
       api.activeLike(data._id)
         .then((res) => {
           card.likeCount(res.likes)
           card.toggleLike()
         })
+        .catch((err => console.log(`Ошибка ${err}`)))
     }
   });
   return card.renderCard()
@@ -96,25 +98,15 @@ const popupFigure = new PopupWithImage('.popup_zoom-image')
 popupFigure.setEventListeners()
 
 
-// const popupFormCardAdd = new PopupWithForm('.popup_card-add', newValues => {
-//   Promise.all([api.getUserInfo(), api.addCard(newValues)])
-//    .then(([dataUser, dataCard]) => {
-//     dataCard.myid = dataUser._id;
-//     cardList.addItem(createCard(dataCard));
-//     popupFormCardAdd.close()
-//    })
-//    .catch((err => console.log(`Ошибка ${err}`)))
-//    .finally(() => popupFormCardAdd.textChange())
-// })
-// popupFormCardAdd.setEventListeners()
 
 const popupFormCardAdd = new PopupWithForm('.popup_card-add', newValues => {
   (api.addCard(newValues))
    .then((dataCard) => {
+    dataCard.myid = dataCard.owner._id
     const dataUser = createCard(dataCard)
     cardList.addItem(dataUser);
     popupFormCardAdd.close()
-    dataUser.checkTreshButton()
+    // dataUser.checkTreshButton()
    })
    .catch((err => console.log(`Ошибка ${err}`)))
    .finally(() => popupFormCardAdd.textChange())
@@ -139,9 +131,9 @@ popupFormProfilEdit.setEventListeners()
 
 function openProfilePopup() {
   profileEditFormValidator.disableSubmitButton()
-  userInfo.getUserInfo()
-  nameInput.textContent = userInfo.getUserInfo()
-  jobInput.textContent = userInfo.getUserInfo()
+  const user = userInfo.getUserInfo()
+  nameInput.value = user.inputName
+  jobInput.value = user.inputJob
   popupFormProfilEdit.open()
 
 }
